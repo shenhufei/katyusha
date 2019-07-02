@@ -26,4 +26,11 @@ public class CollectionUtils {
         set.addAll(listVersion);
         listNew.addAll(set);
     }
+
+    public static void add(List<String> listVersion, String value) {
+        if (!listVersion.contains(value)) {
+            listVersion.add(value);
+        }
+
+    }
 }

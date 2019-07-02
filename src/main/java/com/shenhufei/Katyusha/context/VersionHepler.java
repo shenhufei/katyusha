@@ -1,22 +1,31 @@
 package com.shenhufei.Katyusha.context;
 
+import java.io.File;
+import java.io.FileFilter;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Method;
+import java.net.JarURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.stereotype.Component;
 
+import com.shenhufei.Katyusha.anntion.Code;
+import com.shenhufei.Katyusha.anntion.Igonre;
+import com.shenhufei.Katyusha.anntion.MethodVersion;
 import com.shenhufei.Katyusha.anntion.Version;
 import com.shenhufei.Katyusha.model.Methods;
-import com.shenhufei.Katyusha.utils.FileUtils;
+import com.shenhufei.Katyusha.utils.CollectionUtils;
 
 /**
  * 类操作工具类
@@ -24,15 +33,18 @@ import com.shenhufei.Katyusha.utils.FileUtils;
  * @author shenhufei
  * @since 1.0.0
  */
+@Component
 public class VersionHepler implements InitializingBean {
     private static final Logger LOGGER = LoggerFactory
             .getLogger(VersionHepler.class);
     public static List<Methods> listMethod = new ArrayList<Methods>();
+    static List<Method> listObjectMethods = arraytoArrayList();
+    static Map<String, Integer> map = new HashMap<>();
+    static Map<String, String> versionMap = new HashMap<>();
     /**
      * 请求的版本和响应版本的对应关系
      */
-    public static Map<String, String> versionMap = new ConcurrentHashMap<>();
-    public static List<String> list = new ArrayList<>();
+    public static List<String> listVersion = new ArrayList<>();
 
     public static List<Methods> getListMethod() {
         return listMethod;
@@ -43,11 +55,11 @@ public class VersionHepler implements InitializingBean {
     }
 
     public static List<String> getList() {
-        return list;
+        return listVersion;
     }
 
     public static void setList(List<String> list) {
-        VersionHepler.list = list;
+        VersionHepler.listVersion = list;
     }
 
     public static Map<String, String> getVersionMap() {
@@ -79,83 +91,186 @@ public class VersionHepler implements InitializingBean {
      * @return
      */
 
-    public static List<AnnotatedType> transArrayToCollection(
-            AnnotatedType[] anno) {
-        List<AnnotatedType> list = new ArrayList<>();
-        for (AnnotatedType annotatedType : anno) {
-            list.add(annotatedType);
-        }
-        return list;
+    /**
+     * 获取类加载器
+     */
+    public static ClassLoader getClassLoader() {
+        return Thread.currentThread().getContextClassLoader();
     }
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        // 每个小版本
-        list.add("1.0.0");
-        // 存一个对象，放在list集合中，匹配到code_版本信息时候，返回这个对象，直接用反射执行代码；
-        // 方式1： KEY：code_版本信息当前服务的版本信息 value 对应的被兼容的版本信息
-        // versionMap.put("2000_1.0.0","2000_1.0.0,2000_1.0.1,2000_1.0.3");
-        // 表明1.0.0版本的方法可以兼容1.0.0,1.0.1,1.0.2版本的方法调用
-        // versionMap.put("2000_1.0.4","2000_1.0.4,2000_1.0.5,2000_1.0.6");
-        // 表明1.0.4版本的方法可以兼容1.0.4,1.0.5,1.0.6版本的方法调用
-        versionMap.put("2000_1.0.0", "2000_1.0.0,");
-        versionMap.put("2001_1.0.0", "2001_1.0.0,");
-        versionMap.put("2002_1.0.0", "2002_1.0.0,");
-        versionMap.put("3000_1.0.0", "3000_1.0.0,");
-        versionMap.put("3010_1.0.0", "3010_1.0.0,");
-        versionMap.put("3011_1.0.0", "3011_1.0.0,");
-        versionMap.put("3012_1.0.0", "3012_1.0.0,");
-        versionMap.put("3020_1.0.0", "3020_1.0.0,");
-        versionMap.put("3021_1.0.0", "3021_1.0.0,");
-        versionMap.put("3022_1.0.0", "3022_1.0.0,");
-        versionMap.put("100001_1.0.0", "100001_1.0.0,");
+    /**
+     * 加载类
+     */
+    public static Class<?> loadClass(String className, boolean isInitialized) {
+        Class<?> cls;
         try {
-            init();
-        } catch (Exception e) {
-            e.printStackTrace();
+            cls = Class.forName(className, isInitialized, getClassLoader());
+        } catch (ClassNotFoundException e) {
+            LOGGER.error("load class failure", e);
+            throw new RuntimeException(e);
         }
-
+        return cls;
     }
 
+    /**
+     * 加载类（默认将初始化类）
+     */
+    public static Class<?> loadClass(String className) {
+        return loadClass(className, true);
+    }
+
+    /**
+     * 获取指定包名下的所有类
+     */
+    public static List<Class<?>> getClassSet(String packageName) {
+        List<Class<?>> classSet = new ArrayList<Class<?>>();
+        try {
+            Enumeration<URL> urls = getClassLoader()
+                    .getResources(packageName.replace(".", "/"));
+            while (urls.hasMoreElements()) {
+                URL url = urls.nextElement();
+                if (url != null) {
+                    String protocol = url.getProtocol();
+                    if (protocol.equals("file")) {
+                        String packagePath = url.getPath().replaceAll("%20",
+                                " ");
+                        addClass(classSet, packagePath, packageName);
+                    } else if (protocol.equals("jar")) {
+                        JarURLConnection jarURLConnection = (JarURLConnection) url
+                                .openConnection();
+                        if (jarURLConnection != null) {
+                            JarFile jarFile = jarURLConnection.getJarFile();
+                            if (jarFile != null) {
+                                Enumeration<JarEntry> jarEntries = jarFile
+                                        .entries();
+                                while (jarEntries.hasMoreElements()) {
+                                    JarEntry jarEntry = jarEntries
+                                            .nextElement();
+                                    String jarEntryName = jarEntry.getName();
+                                    if (jarEntryName.endsWith(".class")) {
+                                        String className = jarEntryName
+                                                .substring(0, jarEntryName
+                                                        .lastIndexOf("."))
+                                                .replaceAll("/", ".");
+                                        doAddClass(classSet, className);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.error("get class set failure", e);
+            throw new RuntimeException(e);
+        }
+        return classSet;
+    }
+
+    private static void addClass(List<Class<?>> classSet, String packagePath,
+            String packageName) {
+        File[] files = new File(packagePath).listFiles(new FileFilter() {
+            public boolean accept(File file) {
+                return (file.isFile() && file.getName().endsWith(".class"))
+                        || file.isDirectory();
+            }
+        });
+        for (File file : files) {
+            String fileName = file.getName();
+            if (file.isFile()) {
+                String className = fileName.substring(0,
+                        fileName.lastIndexOf("."));
+                if (!"".equals(packageName)) {
+                    className = packageName + "." + className;
+                }
+                doAddClass(classSet, className);
+            } else {
+                String subPackagePath = fileName;
+                if (!"".equals(packagePath)) {
+                    subPackagePath = packagePath + "/" + subPackagePath;
+                }
+                String subPackageName = fileName;
+                if (!"".equals(packageName)) {
+                    subPackageName = packageName + "." + subPackageName;
+                }
+                addClass(classSet, subPackagePath, subPackageName);
+            }
+        }
+    }
+
+    private static void doAddClass(List<Class<?>> classSet, String className) {
+        Class<?> cls = loadClass(className, false);
+        classSet.add(cls);
+    }
+
+    // TODO
     public static void init() throws Exception {
-        List<Class<?>> list = FileUtils
-                .getClassSet("com.ttpai.stock.biz.service.app");
+        List<Class<?>> list = getVersionListClass(
+                getClassSet("com.ttpai.stock.biz.service.app"));
         // TODO初始化一个接口名称和 code对应关系的集合；
-        Map<String, Integer> map = InitMethodeNameAndCode();
         List<String> listString = getClassNameList();
-        List<Method> listObjectMethods = arraytoArrayList();
         for (int i = 0; i < list.size(); i++) {
             // 有多少类被扫描到了就会有多少个VsersionControllerPojo对象
             Class<?> class1 = list.get(i);
             Annotation[] annotations = class1.getAnnotations();
             for (Annotation annotation : annotations) {
                 if (annotation instanceof Version) {
+                    // 将所有的类对应的版本信息都录入到集合当中，最后再去重筛选，拿到去重后的版本信息；
+                    // listVersion 把该集合去重；
+                    CollectionUtils.add(listVersion,
+                            ((Version) annotation).value());
                     // 获取当前类的名称
                     if (!listString.contains(class1.getName())) {
-
-                        Method[] methods = class1.getMethods();
-                        for (Method method : methods) {
-                            // 去掉超级父类的方法；
-                            if (!listObjectMethods.contains(method)) {
+                        // 去掉超级父类的方法；
+                        List<Method> listMethods = getClassMethod(
+                                class1.getMethods());
+                        for (Method method : listMethods) {
+                            Annotation[] annotations2 = method.getAnnotations();
+                            if (annotations2.length == 0) {
+                                System.out.println(method.getName());
+                                continue;
+                            }
+                            // 判断是否含有igonre注解；
+                            List<Annotation> transArrayToCollection = CollectionUtils
+                                    .transArrayToCollection(annotations2);
+                            if (!hasIgoneAton(transArrayToCollection)) {
+                                // 再去手机方法上面的兼容的版本信息；
                                 // 去掉中间非接口对应的方法
-                                Integer code = map.get(method.getName());
-                                /*
-                                 * if (null == code) { //
-                                 * 找不到需要抛出异常，而且需要处理那种并不是执行的接口 throw new
-                                 * Exception(method.getName() +
-                                 * "没有对应的code值，请检查初始化的InitMethodeNameAndCode方法")
-                                 * ; }
-                                 */
-                                Methods methodss = getMethods(method, code,
-                                        ((Version) annotation).value(),
-                                        class1.getName());
-                                listMethod.add(methodss);
+                                doInit(transArrayToCollection, method,
+                                        annotation, class1);
                             }
                         }
                     }
                 }
             }
         }
+    }
+
+    private static List<Class<?>> getVersionListClass(
+            List<Class<?>> listClass) {
+        List<Class<?>> result = new ArrayList<Class<?>>();
+        for (Class<?> class1 : listClass) {
+            List<Annotation> list = CollectionUtils
+                    .transArrayToCollection(class1.getAnnotations());
+            if (null != list && list.size() > 0) {
+                for (Annotation annotation : list) {
+                    if (annotation instanceof Version) {
+                        result.add(class1);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    private static boolean hasIgoneAton(
+            List<Annotation> transArrayToCollection) {
+        for (Annotation annotation : transArrayToCollection) {
+            if (annotation instanceof Igonre) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static Methods getMethods(Method method, Integer code,
@@ -187,74 +302,116 @@ public class VersionHepler implements InitializingBean {
     }
 
     public static void main(String args[]) throws Exception {
-
-        /*
-         * String str = "com.ttpai.stock.biz.service.app.UserServiceImpl";
-         * String[] split = str.split("\\."); String string = split[split.length
-         * - 1]; String beanName = getBeanName(string);
-         * System.out.println(beanName);
-         */
-
-        List<Class<?>> list = FileUtils
-                .getClassSet("com.ttpai.stock.biz.service.app");
+        List<Class<?>> list = getVersionListClass(
+                getClassSet("com.ttpai.stock.biz.service.app"));
         // TODO初始化一个接口名称和 code对应关系的集合；
-        Map<String, Integer> map = InitMethodeNameAndCode();
         List<String> listString = getClassNameList();
-        List<Method> listObjectMethods = arraytoArrayList();
         for (int i = 0; i < list.size(); i++) {
             // 有多少类被扫描到了就会有多少个VsersionControllerPojo对象
             Class<?> class1 = list.get(i);
             Annotation[] annotations = class1.getAnnotations();
             for (Annotation annotation : annotations) {
                 if (annotation instanceof Version) {
+                    // 将所有的类对应的版本信息都录入到集合当中，最后再去重筛选，拿到去重后的版本信息；
+                    // listVersion 把该集合去重；
+                    CollectionUtils.add(listVersion,
+                            ((Version) annotation).value());
                     // 获取当前类的名称
                     if (!listString.contains(class1.getName())) {
-
-                        Method[] methods = class1.getMethods();
-                        // 如果没有方法数组的话
-                        if (methods.length > 0) {
-                            for (Method method : methods) {
-                                // TODO 去掉超级父类的方法；
-                                if (!listObjectMethods.contains(method)) {
-                                    Integer code = map.get(method.getName());
-                                    if (null == code) {
-                                        // TODO 找不到需要抛出异常，而且需要处理那种并不是执行的接口
-
-                                        /*
-                                         * System.out.println(method.getName());
-                                         * throw new Exception(
-                                         * "方法名没有对应的code值，请检查初始化的InitMethodeNameAndCode方法"
-                                         * );
-                                         */
-                                    }
-                                    Methods methodss = getMethods(method, code,
-                                            ((Version) annotation).value(),
-                                            class1.getName());
-                                    listMethod.add(methodss);
-                                }
+                        // 去掉超级父类的方法；
+                        List<Method> listMethods = getClassMethod(
+                                class1.getMethods());
+                        for (Method method : listMethods) {
+                            Annotation[] annotations2 = method.getAnnotations();
+                            if (annotations2.length == 0) {
+                                System.out.println(method.getName());
+                                continue;
+                            }
+                            // 判断是否含有igonre注解；
+                            List<Annotation> transArrayToCollection = CollectionUtils
+                                    .transArrayToCollection(annotations2);
+                            if (!hasIgoneAton(transArrayToCollection)) {
+                                // 再去手机方法上面的兼容的版本信息；
+                                // 去掉中间非接口对应的方法
+                                doInit(transArrayToCollection, method,
+                                        annotation, class1);
                             }
                         }
-
                     }
                 }
+            }
+
+        }
+    }
+
+    private static void doInit(List<Annotation> transArrayToCollection,
+            Method method, Annotation annotation, Class<?> class1)
+            throws Exception {
+        Code codeAnnotation = getCodeAtnn(transArrayToCollection);
+        if (null == codeAnnotation) {
+            throw new Exception(method.getName() + "方法是否添加了code注解");
+        }
+        Integer value = codeAnnotation.value();
+        if (value.equals(-1)) {
+            // 找不到需要抛出异常，而且需要处理那种并不是执行的接口 throw new
+            throw new Exception(method.getName() + "方法对应的code注解没有对应的code值");
+        }
+        // 将接口名和对应的code值进行存储
+        map.put(method.getName(), value);
+        // 记录方法和其对应的支持的那些版本的服务进行记录
+        getMethodVersionCode(transArrayToCollection, value,
+                ((Version) annotation).value());
+        Methods methodss = getMethods(method, value,
+                ((Version) annotation).value(), class1.getName());
+        listMethod.add(methodss);
+
+    }
+
+    private static void getMethodVersionCode(
+            List<Annotation> transArrayToCollection, Integer code,
+            String version) {
+        MethodVersion versionAtnn = getMethodVersionAtnn(
+                transArrayToCollection);
+        // 拿到当前方法对应支持那些版本的代码
+        String[] value = ((MethodVersion) versionAtnn).value();
+        String str = "";
+        if (null != value) {
+            String[] split = value[0].split("\\,");
+            if (null != split) {
+                for (int i = 0; i < split.length; i++) {
+                    str = str + code + "_" + split[i] + ",";
+                }
+                versionMap.put(code + "_" + version, str);
             }
         }
     }
 
-    private static Map<String, Integer> InitMethodeNameAndCode() {
-        Map<String, Integer> map = new HashMap<String, Integer>();
-        map.put("login", 2000);
-        map.put("logout", 2001);
-        map.put("getStockMessage", 2002);
-        map.put("getStockTaskStatistics", 3000);
-        map.put("getEnterStockTaskList", 3010);
-        map.put("getEnterStockTaskDetail", 3011);
-        map.put("updateEnterStockStatus", 3012);
-        map.put("getStockCheckTaskList", 3020);
-        map.put("getStockCheckTaskDetail", 3021);
-        map.put("updateCheckStockStatus", 3022);
-        map.put("getLatestVersion", 100001);
-        return map;
+    private static MethodVersion getMethodVersionAtnn(
+            List<Annotation> transArrayToCollection) {
+        for (Annotation annotation : transArrayToCollection) {
+            if (annotation instanceof MethodVersion) {
+                return (MethodVersion) annotation;
+            }
+        }
+        return null;
+    }
+
+    private static Code getCodeAtnn(List<Annotation> transArrayToCollection) {
+        for (Annotation annotation : transArrayToCollection) {
+            if (annotation instanceof Code) {
+                return (Code) annotation;
+            }
+        }
+        return null;
+    }
+
+    private static List<Method> getClassMethod(Method[] methods) {
+        List<Method> arrayList = new ArrayList<Method>();
+        for (Method method : methods) {
+            if (!listObjectMethods.contains(method))
+                arrayList.add(method);
+        }
+        return arrayList;
     }
 
     private static List<String> getClassNameList() {
@@ -308,7 +465,6 @@ public class VersionHepler implements InitializingBean {
      * LoginRequest.class); return ReflectionUtils.invokeMethod(method2, object,
      * loginRequest); } } } return null; }
      */
-
     public static String getMethodVersion(String version, Integer code) {
         Set<String> keySet = versionMap.keySet();
         String key = null;
@@ -337,6 +493,13 @@ public class VersionHepler implements InitializingBean {
 
         }
         return null;
+
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        init();
+
     }
 
 }

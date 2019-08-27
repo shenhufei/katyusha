@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.util.ReflectionUtils;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.alibaba.fastjson.JSONArray;
 import com.shenhufei.Katyusha.model.Methods;
@@ -22,13 +20,17 @@ public class InvokeHandler {
         // 知道服务版本号，这个版本号就是我们在service层写的注解对应的版本号信息；
         // 需要去调用那个累的知道了code值就知道了那个接口；
         // TODO 修改这种创建对象的方式为spring的那种；
-        WebApplicationContext wc = WebApplicationContextUtils
-                .getRequiredWebApplicationContext(
-                        param.getInvocation().getServletContext());
+        /*
+         * WebApplicationContext wc = WebApplicationContextUtils
+         * .getRequiredWebApplicationContext(
+         * param.getInvocation().getServletContext());
+         */
+
         List<Methods> listMethod = VersionHepler.getListMethod();
         for (Methods methods : listMethod) {
             if (methods.getVersionMethodCode().equals(versionString)) {
-                Object object = wc.getBean(methods.getClassName());
+                Object object = SpringContextUtil
+                        .getBean(methods.getClassName());
                 Class<?> fullClassName = Class
                         .forName(methods.getFullClassName());
                 Class<?>[] parameterTypes = methods.getParameterTypes();

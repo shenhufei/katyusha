@@ -10,7 +10,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.stereotype.Component;
 
 import com.shenhufei.Katyusha.anntion.Code;
 import com.shenhufei.Katyusha.anntion.Version;
@@ -26,7 +25,6 @@ import com.shenhufei.Katyusha.utils.StringUtils;
  * @author shenhufei
  * @since 1.0.0
  */
-@Component
 public class VersionHepler implements InitializingBean {
     private static final Logger LOGGER = LoggerFactory
             .getLogger(VersionHepler.class);

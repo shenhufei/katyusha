@@ -1,13 +1,13 @@
 package java.lang;
 
-import sun.reflect.CallerSensitive;
-import sun.reflect.Reflection;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.StringTokenizer;
+
+import sun.reflect.CallerSensitive;
+import sun.reflect.Reflection;
 
 /**
  * Runtime类，里面可以获得应用运行时的一些状态（主要包括使用的内存和cpu个数）和在应用运行时执行一些操作（程序退出、执行gc、设置退出时的钩子函数）。

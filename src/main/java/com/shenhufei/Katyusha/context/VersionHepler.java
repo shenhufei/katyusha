@@ -13,6 +13,8 @@ import org.springframework.beans.factory.InitializingBean;
 
 import com.shenhufei.Katyusha.anntion.Code;
 import com.shenhufei.Katyusha.anntion.Version;
+import com.shenhufei.Katyusha.exception.MethodCodeNotFoundException;
+import com.shenhufei.Katyusha.exception.MethodCodeValueNotFoundException;
 import com.shenhufei.Katyusha.model.Methods;
 import com.shenhufei.Katyusha.utils.CollectionUtils;
 import com.shenhufei.Katyusha.utils.DataUtils;
@@ -131,12 +133,12 @@ public class VersionHepler implements InitializingBean, VersionInit{
             Method method, Annotation annotation, Class<?> class1)throws Exception {
         Code codeAnnotation = CollectionUtils.getCodeAtnn(transArrayToCollection);
         if (null == codeAnnotation) {
-            throw new Exception(method.getName() + "方法是否添加了code注解");
+            throw new MethodCodeNotFoundException(method.getName() + "方法是否添加了code注解");
         }
         Integer value = codeAnnotation.value();
         if (value.equals(-1)) {
             // 找不到需要抛出异常，而且需要处理那种并不是执行的接口 throw new
-            throw new Exception(method.getName() + "方法对应的code注解没有对应的code值");
+            throw new MethodCodeValueNotFoundException(method.getName() + "方法对应的code注解没有对应的code值");
         }
         // 将接口名和对应的code值进行存储
         map.put(method.getName(), value);

@@ -1,11 +1,12 @@
-package filter;
+package learn.filter;
 
-public class WhileDemo {
+public class ForDemo {
 
 	public static void main(String[] args) {
-		while(true){
+		for(;;){
 			
 		}
+		
 
 	}
 

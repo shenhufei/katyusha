@@ -1,4 +1,4 @@
-package rmi.consumer;
+package learn.rmi.consumer;
 
 import java.rmi.Naming;
 import java.util.List;

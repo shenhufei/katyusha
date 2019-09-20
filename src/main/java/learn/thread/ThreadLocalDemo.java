@@ -1,4 +1,4 @@
-package com.shenhufei.Katyusha.learn;
+package learn.thread;
 
 import java.util.Random;
 

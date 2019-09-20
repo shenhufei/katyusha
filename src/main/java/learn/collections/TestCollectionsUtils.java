@@ -1,4 +1,4 @@
-package com.shenhufei.Katyusha.utils;
+package learn.collections;
 
 import java.util.ArrayList;
 import java.util.Collections;

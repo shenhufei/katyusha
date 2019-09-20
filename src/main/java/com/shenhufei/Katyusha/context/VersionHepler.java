@@ -84,6 +84,7 @@ public class VersionHepler implements InitializingBean {
 
     // TODO
     public static void init() throws Exception {
+    	LOGGER.info("init starting");
         List<Class<?>> list = CollectionUtils.getVersionListClass(
                 FileUtils.getClassSet("com.ttpai.stock.biz.service.app"));
         // TODO初始化一个接口名称和 code对应关系的集合；
@@ -125,6 +126,7 @@ public class VersionHepler implements InitializingBean {
                 }
             }
         }
+        LOGGER.info("init end");
     }
 
     private static void doInit(List<Annotation> transArrayToCollection,

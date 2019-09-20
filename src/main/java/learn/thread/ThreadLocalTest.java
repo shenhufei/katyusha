@@ -1,4 +1,4 @@
-package com.shenhufei.Katyusha.learn;
+package learn.thread;
 
 public class ThreadLocalTest {
 

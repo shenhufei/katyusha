@@ -32,6 +32,7 @@ public class InvokeHandler implements Handler {
 		return handler;
 	}
 	public Object doHandler(RequestParam param) throws ClassNotFoundException {
+		//TODO 需要扫描，用户是否是实现了Filter接口，看是否需要执行响应的方法；
 		// 获取服务版本号
 		String versionString = MethodUtils.getMethodVersion(VersionHepler.versionMap,param.getVersion(),param.getCode());
 		// 知道服务版本号，这个版本号就是我们在service层写的注解对应的版本号信息；

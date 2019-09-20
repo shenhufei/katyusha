@@ -1,4 +1,4 @@
-package com.shenhufei.Katyusha.pojo;
+package learn.trans;
 
 public class Student {
 	private Integer age;

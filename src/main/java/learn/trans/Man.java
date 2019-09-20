@@ -1,9 +1,9 @@
-package com.shenhufei.Katyusha.trans;
+package learn.trans;
 
-public class Student {
+public class Man {
 	private Integer age;
 	private String name;
-	private Double high;
+	private String nickName;
 	public Integer getAge() {
 		return age;
 	}
@@ -16,11 +16,10 @@ public class Student {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Double getHigh() {
-		return high;
+	public String getNickName() {
+		return nickName;
 	}
-	public void setHigh(Double high) {
-		this.high = high;
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
-	
 }

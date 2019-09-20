@@ -10,5 +10,13 @@ import com.shenhufei.Katyusha.model.RequestParam;
  */
 public interface Handler {
 	
+	/**
+	 * 提供执行的方法
+	 * @author shenhufei
+	 *
+	 * @param param
+	 * @return
+	 * @throws ClassNotFoundException
+	 */
 	public Object doHandler(RequestParam param) throws ClassNotFoundException;
 }

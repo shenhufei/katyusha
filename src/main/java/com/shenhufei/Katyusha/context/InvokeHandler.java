@@ -46,16 +46,12 @@ public class InvokeHandler implements Handler {
 		List<Methods> listMethod = VersionHepler.getListMethod();
 		for (Methods methods : listMethod) {
 			if (methods.getVersionMethodCode().equals(versionString)) {
-				Object object = SpringContextUtil
-						.getBean(methods.getClassName());
-				Class<?> fullClassName = Class
-						.forName(methods.getFullClassName());
+				Object object = ContextBeanFactory.getBean(methods.getClassName());
+				Class<?> fullClassName = Class.forName(methods.getFullClassName());
 				Class<?>[] parameterTypes = methods.getParameterTypes();
-
 				Method method2 = ReflectionUtils.findMethod(fullClassName,
 						methods.getMethodName(), parameterTypes);
-				return ReflectionUtils.invokeMethod(method2, object,
-						JSONArray.toJSONString(param.getObj()));
+				return ReflectionUtils.invokeMethod(method2, object,JSONArray.toJSONString(param.getObj()));
 			}
 		}
 		return null;

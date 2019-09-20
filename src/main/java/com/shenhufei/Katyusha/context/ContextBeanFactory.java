@@ -4,7 +4,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-public class SpringContextUtil implements ApplicationContextAware {
+public class ContextBeanFactory implements ApplicationContextAware {
     private static ApplicationContext applicationContext;
 
     /**
@@ -12,7 +12,7 @@ public class SpringContextUtil implements ApplicationContextAware {
      */
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) {
-        SpringContextUtil.applicationContext = applicationContext;
+    	ContextBeanFactory.applicationContext = applicationContext;
     }
 
     /**

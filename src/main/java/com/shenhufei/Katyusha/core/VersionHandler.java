@@ -27,7 +27,7 @@ import com.shenhufei.Katyusha.utils.StringUtils;
  * @author shenhufei
  * @since 1.0.0
  */
-public class VersionHepler implements InitializingBean, VersionInit{
+public class VersionHandler implements InitializingBean, VersionInit{
     private static final Logger LOGGER = LoggerFactory.getLogger(VersionHepler.class);
     public static List<Methods> listMethod = new ArrayList<Methods>();
     /**
@@ -92,9 +92,10 @@ public class VersionHepler implements InitializingBean, VersionInit{
     public  void init() throws Exception {
     	LOGGER.info("init starting");
     	//TODO 需要把这个写死的路径，修改成配置或者。
-    	//TODO 1.可以使用properties 文件，也可以使用xml配置；还必须是可以在多个配置任意以properties ，xml 文件格式的配置文件找那个书写
-    	//TODO 2.但是必须是这些配置文件中有且仅有一个配置，否则抛出配置多余的异常提示用户；
-        List<Class<?>> list = CollectionUtils.getVersionListClass(FileUtils.getClassSet("com.ttpai.stock.biz.service.app"));
+    	//TODO  方式1：步骤1.可以使用properties 文件，也可以使用xml配置；还必须是可以在多个配置任意以properties ，xml 文件格式的配置文件找那个书写
+    	//                                   2.但是必须是这些配置文件中有且仅有一个配置，否则抛出配置多余的异常提示用户；
+        //TODO  方式2 1.或者检查有无类实现了 PathHandler 这个接口，拿到这个接口的实现类中的path路径。
+    	  List<Class<?>> list = CollectionUtils.getVersionListClass(FileUtils.getClassSet("com.ttpai.stock.biz.service.app"));
         // TODO初始化一个接口名称和 code对应关系的集合；
         List<String> listString = CollectionUtils.getClassNameList(listMethod);
         for (int i = 0; i < list.size(); i++) {

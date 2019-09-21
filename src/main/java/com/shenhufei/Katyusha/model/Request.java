@@ -3,7 +3,7 @@ package com.shenhufei.Katyusha.model;
 import lombok.Data;
 
 @Data
-public class RequestParam {
+public class Request {
     /**
      * 版本信息
      */

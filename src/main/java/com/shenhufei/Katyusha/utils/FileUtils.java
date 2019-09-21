@@ -13,7 +13,7 @@ import java.util.jar.JarFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.shenhufei.Katyusha.context.VersionHepler;
+import com.shenhufei.Katyusha.core.VersionHepler;
 
 public class FileUtils {
     private static final Logger LOGGER = LoggerFactory

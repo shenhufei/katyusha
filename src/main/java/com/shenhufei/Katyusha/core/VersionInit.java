@@ -1,4 +1,4 @@
-package com.shenhufei.Katyusha.context;
+package com.shenhufei.Katyusha.core;
 
 public interface VersionInit {
 	/**

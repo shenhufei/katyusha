@@ -1,4 +1,4 @@
-package com.shenhufei.Katyusha.context;
+package com.shenhufei.Katyusha.core;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -91,8 +91,10 @@ public class VersionHepler implements InitializingBean, VersionInit{
      */
     public  void init() throws Exception {
     	LOGGER.info("init starting");
-        List<Class<?>> list = CollectionUtils.getVersionListClass(
-                FileUtils.getClassSet("com.ttpai.stock.biz.service.app"));
+    	//TODO 需要把这个写死的路径，修改成配置或者。
+    	//TODO 1.可以使用properties 文件，也可以使用xml配置；还必须是可以在多个配置任意以properties ，xml 文件格式的配置文件找那个书写
+    	//TODO 2.但是必须是这些配置文件中有且仅有一个配置，否则抛出配置多余的异常提示用户；
+        List<Class<?>> list = CollectionUtils.getVersionListClass(FileUtils.getClassSet("com.ttpai.stock.biz.service.app"));
         // TODO初始化一个接口名称和 code对应关系的集合；
         List<String> listString = CollectionUtils.getClassNameList(listMethod);
         for (int i = 0; i < list.size(); i++) {

@@ -1,9 +1,6 @@
-package learn.proxy.InvocationHandler;
+package learn.proxy.jdk.InvocationHandler;
 
 import java.lang.reflect.Proxy;
-
-import learn.proxy.UserService;
-import learn.proxy.UserServiceImpl;
 
 public class InvocationHandlerDemo {
 

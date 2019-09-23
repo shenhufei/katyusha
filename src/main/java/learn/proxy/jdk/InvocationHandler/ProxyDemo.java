@@ -1,4 +1,4 @@
-package learn.proxy;
+package learn.proxy.jdk.InvocationHandler;
 
 
 public class ProxyDemo {

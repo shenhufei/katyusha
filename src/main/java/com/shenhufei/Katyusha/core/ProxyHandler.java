@@ -1,7 +1,5 @@
 package com.shenhufei.Katyusha.core;
 
-import learn.proxy.ProxyFactory;
-
 public class ProxyHandler extends ProxyFactory{
 
 	public ProxyHandler(Object target) {

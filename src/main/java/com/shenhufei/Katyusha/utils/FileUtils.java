@@ -13,11 +13,8 @@ import java.util.jar.JarFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.shenhufei.Katyusha.core.VersionHepler;
-
 public class FileUtils {
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(VersionHepler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileUtils.class);
 
     /**
      * 获取指定包名下的所有类

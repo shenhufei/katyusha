@@ -7,7 +7,7 @@ import org.springframework.util.ReflectionUtils;
 
 import com.alibaba.fastjson.JSONArray;
 import com.shenhufei.Katyusha.model.Methods;
-import com.shenhufei.Katyusha.model.RequestParam;
+import com.shenhufei.Katyusha.model.Request;
 import com.shenhufei.Katyusha.utils.MethodUtils;
 
 /**
@@ -31,10 +31,10 @@ public class InvokeHandler implements Handler {
 		}
 		return handler;
 	}
-	public Object doHandler(RequestParam param) throws ClassNotFoundException {
+	public Object doHandler(Request param) throws ClassNotFoundException {
 		//TODO 需要扫描，用户是否是实现了Filter接口，看是否需要执行响应的方法；
 		// 获取服务版本号
-		String versionString = MethodUtils.getMethodVersion(VersionHepler.versionMap,param.getVersion(),param.getCode());
+		String versionString = MethodUtils.getMethodVersion(VersionHandler.versionMap,param.getVersion(),param.getCode());
 		// 知道服务版本号，这个版本号就是我们在service层写的注解对应的版本号信息；
 		// 需要去调用那个累的知道了code值就知道了那个接口；
 		
@@ -44,10 +44,10 @@ public class InvokeHandler implements Handler {
 		 * param.getInvocation().getServletContext());
 		 */
 
-		List<Methods> listMethod = VersionHepler.getListMethod();
+		List<Methods> listMethod = VersionHandler.getListMethod();
 		for (Methods methods : listMethod) {
 			if (methods.getVersionMethodCode().equals(versionString)) {
-				Object object = ContextBeanFactory.getBean(methods.getClassName());
+				Object object = BeanFactory.getBean(methods.getClassName());
 				Class<?> fullClassName = Class.forName(methods.getFullClassName());
 				Class<?>[] parameterTypes = methods.getParameterTypes();
 				Method method2 = ReflectionUtils.findMethod(fullClassName,

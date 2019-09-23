@@ -1,6 +1,6 @@
 package com.shenhufei.Katyusha.core;
 
-import com.shenhufei.Katyusha.model.RequestParam;
+import com.shenhufei.Katyusha.model.Request;
 
 /**
  *  提供执行的接口
@@ -18,5 +18,5 @@ public interface Handler {
 	 * @return
 	 * @throws ClassNotFoundException
 	 */
-	public Object doHandler(RequestParam param) throws ClassNotFoundException;
+	public Object doHandler(Request param) throws ClassNotFoundException;
 }

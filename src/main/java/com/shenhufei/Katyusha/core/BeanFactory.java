@@ -12,7 +12,7 @@ public class BeanFactory implements ApplicationContextAware {
      */
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) {
-    	ContextBeanFactory.applicationContext = applicationContext;
+    	BeanFactory.applicationContext = applicationContext;
     }
 
     /**

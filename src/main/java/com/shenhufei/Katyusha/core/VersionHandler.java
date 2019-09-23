@@ -28,7 +28,7 @@ import com.shenhufei.Katyusha.utils.StringUtils;
  * @since 1.0.0
  */
 public class VersionHandler implements InitializingBean, VersionInit{
-    private static final Logger LOGGER = LoggerFactory.getLogger(VersionHepler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(VersionHandler.class);
     public static List<Methods> listMethod = new ArrayList<Methods>();
     /**
      * 获取Object中的所有方法，准备在后续操作中，将这些过滤掉
@@ -50,7 +50,7 @@ public class VersionHandler implements InitializingBean, VersionInit{
     }
 
     public static void setListMethod(List<Methods> listMethod) {
-        VersionHepler.listMethod = listMethod;
+    	VersionHandler.listMethod = listMethod;
     }
 
     public static List<String> getList() {
@@ -58,7 +58,7 @@ public class VersionHandler implements InitializingBean, VersionInit{
     }
 
     public static void setList(List<String> list) {
-        VersionHepler.listVersion = list;
+    	VersionHandler.listVersion = list;
     }
 
     public static Map<String, String> getVersionMap() {
@@ -66,7 +66,7 @@ public class VersionHandler implements InitializingBean, VersionInit{
     }
 
     public static void setVersionMap(Map<String, String> versionMap) {
-        VersionHepler.versionMap = versionMap;
+    	VersionHandler.versionMap = versionMap;
     }
 
     /**

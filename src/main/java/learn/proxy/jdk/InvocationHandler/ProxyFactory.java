@@ -15,7 +15,6 @@ public class ProxyFactory {
 			return Proxy.newProxyInstance(target.getClass().getClassLoader(), target.getClass().getInterfaces(), new InvocationHandler() {
 				public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 					System.out.println("开始代理"); //增强实现
-					System.out.println("代理对象的hashCode值"+proxy.hashCode());
 					Object result = method.invoke(target, args);
 					System.out.println("代理结束"); //增强实现
 					return result;

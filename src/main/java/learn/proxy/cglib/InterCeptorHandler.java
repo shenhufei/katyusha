@@ -20,6 +20,7 @@ public class InterCeptorHandler implements MethodInterceptor{
 	public Object intercept(Object proxy, Method arg1, Object[] arg2,
 			MethodProxy method) throws Throwable {
 		System.out.println("执行开始");
+		
         Object o1 = method.invokeSuper(proxy,arg2);
         System.out.println("执行结束");
         return o1;

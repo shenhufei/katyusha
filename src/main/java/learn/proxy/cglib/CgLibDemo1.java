@@ -7,6 +7,7 @@ public class CgLibDemo1 {
 	public static void main(String[] args) {
 		 InterCeptorHandler interCeptorHandler = new InterCeptorHandler();
 		 UserServiceImpl userService = (UserServiceImpl) interCeptorHandler.getProxy(UserServiceImpl.class);
+		 
 		 userService.print();
 
 	}

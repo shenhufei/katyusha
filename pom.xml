@@ -9,10 +9,10 @@
 
 	<name>Katyusha</name>
 	<url>http://maven.apache.org</url>
-	
+
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
-    	<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -58,11 +58,17 @@
 			<artifactId>spring-beans</artifactId>
 			<version>4.3.2.RELEASE</version>
 		</dependency>
-		
+		<!-- cglib动态代理的类 -->
 		<dependency>
-    		<groupId>cglib</groupId>
-    		<artifactId>cglib</artifactId>
-    		<version>3.2.10</version>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>3.2.10</version>
+		</dependency>
+		<!-- 参数校验工具类 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.9</version>
 		</dependency>
 	</dependencies>
 </project>

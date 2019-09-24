@@ -3,8 +3,6 @@ package com.shenhufei.Katyusha.utils;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -87,14 +85,13 @@ public class CollectionUtils {
         List<Class<?>> result = new ArrayList<Class<?>>();
         for (Class<?> class1 : listClass) {
             List<Annotation> list = CollectionUtils.transArrayToCollection(class1.getAnnotations());
-            if (null != list && list.size() > 0) {
+            if(!org.springframework.util.CollectionUtils.isEmpty(list))
                 for (Annotation annotation : list) {
                 	//判断如果是类上加了 @See Version 这个注解的类才是我们需要加载的类
                     if (annotation instanceof Version) {
                         result.add(class1);
                     }
                 }
-            }
         }
         return result;
     }

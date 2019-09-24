@@ -7,7 +7,7 @@ import java.util.stream.LongStream;
 public class Demo1 {
 
     public static void main(String[] args) {
-        Instant start = Instant.now();
+        /*Instant start = Instant.now();
         // 普通做法求0加到10000000000的和
         LongStream.rangeClosed(0, 100000000000L).reduce(0, Long::sum);
         Instant end = Instant.now();
@@ -21,6 +21,6 @@ public class Demo1 {
 
         Instant end2 = Instant.now();
         System.out.println("耗费" + Duration.between(end2, start2) + "秒");// 30秒
-    }
+*/    }
 
 }

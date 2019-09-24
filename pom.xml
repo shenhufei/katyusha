@@ -4,13 +4,15 @@
 
 	<groupId>com.shenhufei</groupId>
 	<artifactId>Katyusha</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.1</version>
 	<packaging>jar</packaging>
 
 	<name>Katyusha</name>
 	<url>http://maven.apache.org</url>
-
+	
 	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+    	<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -62,6 +64,5 @@
     		<artifactId>cglib</artifactId>
     		<version>3.2.10</version>
 		</dependency>
-
 	</dependencies>
 </project>

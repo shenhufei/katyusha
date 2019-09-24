@@ -31,7 +31,7 @@ public class VersionHandler implements InitializingBean, VersionInit{
     private static final Logger LOGGER = LoggerFactory.getLogger(VersionHandler.class);
     public static Map<String,Methods> mapMethod = new HashMap<String,Methods>();
     /**
-     * 获取Object中的所有方法，准备在后续操作中，将这些过滤掉
+     * 获取超级父类中的所有方法，准备在后续操作中，将这些过滤掉
      */
     static List<Method> listObjectMethods = CollectionUtils.arraytoArrayList();
     

@@ -9,5 +9,5 @@ public interface VersionInit {
 	 *
 	 * @throws Exception
 	 */
-	void initMethodMap(List<Class<?>> list, List<String> listString)throws Exception;
+	void  initMethodMap(List<Class<?>> list, List<String> listString)throws Exception;
 }

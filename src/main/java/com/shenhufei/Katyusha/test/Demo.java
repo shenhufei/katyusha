@@ -1,4 +1,4 @@
-package com.shenhufei.Katyusha.core;
+package com.shenhufei.Katyusha.test;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -10,13 +10,14 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
 
+import com.alibaba.fastjson.JSONArray;
 import com.shenhufei.Katyusha.anntion.After;
 import com.shenhufei.Katyusha.anntion.Around;
 import com.shenhufei.Katyusha.anntion.Before;
 import com.shenhufei.Katyusha.anntion.Code;
 import com.shenhufei.Katyusha.anntion.Version;
+import com.shenhufei.Katyusha.core.VersionHandler;
 import com.shenhufei.Katyusha.exception.ClassNotImplementsInterceptorHandlerException;
 import com.shenhufei.Katyusha.exception.MethodCodeNotFoundException;
 import com.shenhufei.Katyusha.exception.MethodCodeValueNotFoundException;
@@ -33,7 +34,7 @@ import com.shenhufei.Katyusha.utils.StringUtils;
  * @author shenhufei
  * @since 1.0.0
  */
-public class VersionHandler {
+public class Demo  {
     private static final Logger LOGGER = LoggerFactory.getLogger(VersionHandler.class);
     public static Map<String,Methods> mapMethod = new HashMap<String,Methods>();
     /**
@@ -45,7 +46,7 @@ public class VersionHandler {
      * 存储接口名，接口code码
      */
     static Map<String, Integer> map = new HashMap<>();
-    public static Map<String, String> versionMap = new HashMap<>();
+    static Map<String, String> versionMap = new HashMap<>();
     /**
      * 请求的版本和响应版本的对应关系
      */
@@ -154,7 +155,6 @@ public class VersionHandler {
         
     }
 
-   
     public static void main(String[] args) throws Exception {
     	//拿到所有包下的字节码文件
     	List<Class<?>> list = CollectionUtils.getVersionListClass(FileUtils.getClassSet("learn.test"));
@@ -162,15 +162,19 @@ public class VersionHandler {
         List<String> listString = CollectionUtils.getClassNameList(mapMethod);
     	//初始化版本控制的方法
         initMethodMap(list,listString);
+        
         //TODO 需要扫描包，看那些类实现了Filter接口
-        initBeforeAfterAroundMethods(list,listString);
+        initBeforeAfterAroundMethods(list);
 	}
 
-	private static void initBeforeAfterAroundMethods(List<Class<?>> list,
-			List<String> listString) throws  Exception {
-		Collection<Methods> values = mapMethod.values();
-		for (Methods methods : values) {
-			String fullClassName = methods.getFullClassName();
+	private static void initBeforeAfterAroundMethods(List<Class<?>> list) throws  Exception {
+		/*Collection<Methods> values = mapMethod.values();
+		System.out.println(values.size());*/
+		//TODO 这个位置的数据需要做修改，为啥拿不到 DemoTest 这个类
+		List<Class<?>> classSet = FileUtils.getClassSet("learn.test");
+		for (Class<?> class1 : list) {
+			String fullClassName = class1.getName();
+			System.out.println("类名是："+fullClassName);
 			Class<?> c=Class.forName(fullClassName);
 			//拿到该类的实现的接口；
 			List<Class<?>> interfaceList = CollectionUtils.transArrayToCollection(c.getInterfaces());

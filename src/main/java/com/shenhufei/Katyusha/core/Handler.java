@@ -1,5 +1,7 @@
 package com.shenhufei.Katyusha.core;
 
+import com.shenhufei.Katyusha.exception.MethodCodeNotFoundException;
+import com.shenhufei.Katyusha.exception.MethodNotFoundException;
 import com.shenhufei.Katyusha.model.Request;
 
 /**
@@ -17,6 +19,8 @@ public interface Handler {
 	 * @param param
 	 * @return
 	 * @throws ClassNotFoundException
+	 * @throws MethodNotFoundException 
+	 * @throws MethodCodeNotFoundException 
 	 */
-	public Object doHandler(Request param) throws ClassNotFoundException;
+	public Object doHandler(Request param) throws ClassNotFoundException, MethodNotFoundException, MethodCodeNotFoundException;
 }

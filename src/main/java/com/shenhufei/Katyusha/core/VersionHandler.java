@@ -29,7 +29,7 @@ import com.shenhufei.Katyusha.utils.StringUtils;
  */
 public class VersionHandler implements InitializingBean, VersionInit{
     private static final Logger LOGGER = LoggerFactory.getLogger(VersionHandler.class);
-    public static List<Methods> listMethod = new ArrayList<Methods>();
+    public static Map<String,Methods> mapMethod = new HashMap<String,Methods>();
     /**
      * 获取Object中的所有方法，准备在后续操作中，将这些过滤掉
      */
@@ -45,12 +45,12 @@ public class VersionHandler implements InitializingBean, VersionInit{
      */
     public static List<String> listVersion = new ArrayList<>();
 
-    public static List<Methods> getListMethod() {
-        return listMethod;
+    public static Map<String,Methods> getListMethod() {
+        return mapMethod;
     }
 
-    public static void setListMethod(List<Methods> listMethod) {
-    	VersionHandler.listMethod = listMethod;
+    public static void setListMethod(Map<String,Methods> mapMethod) {
+    	VersionHandler.mapMethod = mapMethod;
     }
 
     public static List<String> getList() {
@@ -95,29 +95,27 @@ public class VersionHandler implements InitializingBean, VersionInit{
     	//TODO  方式1：步骤1.可以使用properties 文件，也可以使用xml配置；还必须是可以在多个配置任意以properties ，xml 文件格式的配置文件找那个书写
     	//                                   2.但是必须是这些配置文件中有且仅有一个配置，否则抛出配置多余的异常提示用户；
         //TODO  方式2 1.或者检查有无类实现了 PathHandler 这个接口，拿到这个接口的实现类中的path路径。
-    	  List<Class<?>> list = CollectionUtils.getVersionListClass(FileUtils.getClassSet("com.ttpai.stock.biz.service.app"));
-        // TODO初始化一个接口名称和 code对应关系的集合；
-        List<String> listString = CollectionUtils.getClassNameList(listMethod);
-        for (int i = 0; i < list.size(); i++) {
-            // 有多少类被扫描到了就会有多少个VsersionControllerPojo对象
-            Class<?> class1 = list.get(i);
+    	List<Class<?>> list = CollectionUtils.getVersionListClass(FileUtils.getClassSet("com.ttpai.stock.biz.service.app"));
+    	// TODO 初始化一个接口名称和 code对应关系的集合；
+        List<String> listString = CollectionUtils.getClassNameList(mapMethod);
+    	for (Class<?> class1 : list) {
+        	// 有多少类被扫描到了就会有多少个VsersionControllerPojo对象
             Annotation[] annotations = class1.getAnnotations();
             for (Annotation annotation : annotations) {
                 if (annotation instanceof Version) {
                     // 将所有的类对应的版本信息都录入到集合当中，最后再去重筛选，拿到去重后的版本信息；
                     // listVersion 把该集合去重；
                     CollectionUtils.add(listVersion,((Version) annotation).value());
-                    // 获取当前类的名称
+                    //从已经添加到了Map集合中的方法的类，再次拿来做校验，防止在方法Map集合中添加重复的方法
                     if (!listString.contains(class1.getName())) {
                         // 去掉超级父类的方法；
                         List<Method> listMethods = CollectionUtils.getClassMethod(listObjectMethods,class1.getMethods());
                         for (Method method : listMethods) {
                             Annotation[] annotations2 = method.getAnnotations();
                             if (annotations2.length == 0) {
-                                System.out.println(method.getName());
                                 continue;
                             }
-                            // 判断是否含有igonre注解；
+                            // 去掉igonre 注解的方法，igonre注解的方法是这个类中不是版本控制的方法
                             List<Annotation> transArrayToCollection = CollectionUtils.transArrayToCollection(annotations2);
                             if (!CollectionUtils.hasIgoneAton(transArrayToCollection)) {
                                 // 再去手机方法上面的兼容的版本信息；
@@ -128,7 +126,7 @@ public class VersionHandler implements InitializingBean, VersionInit{
                     }
                 }
             }
-        }
+		}
         LOGGER.info("init end");
     }
 
@@ -148,7 +146,8 @@ public class VersionHandler implements InitializingBean, VersionInit{
         // 记录方法和其对应的支持的那些版本的服务进行记录
         StringUtils.getMethodVersionCode(versionMap, transArrayToCollection,value, ((Version) annotation).value());
         Methods methodss = DataUtils.getMethods(method, value,((Version) annotation).value(), class1.getName());
-        listMethod.add(methodss);
+        //这个位置使用Map集合来接受 ,handler中查询这个方法的时候速度会更快
+        mapMethod.put(methodss.getVersionMethodCode(), methodss);
 
     }
 

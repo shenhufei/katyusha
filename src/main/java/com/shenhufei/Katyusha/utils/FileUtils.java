@@ -17,7 +17,7 @@ public class FileUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(FileUtils.class);
 
     /**
-     * 获取指定包名下的所有类
+     * 获取指定包名下的所有类的字节码文件
      */
     public static List<Class<?>> getClassSet(String packageName) {
         List<Class<?>> classSet = new ArrayList<Class<?>>();

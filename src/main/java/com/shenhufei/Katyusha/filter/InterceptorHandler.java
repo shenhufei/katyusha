@@ -7,24 +7,6 @@ package com.shenhufei.Katyusha.filter;
  * @author shenhufei
  */
 public interface InterceptorHandler {
-	/**
-	 * 前置执行
-	 * @author shenhufei
-	 *
-	 */
-	void beforeDo(Object...obj);
-	/**
-	 * 后置执行
-	 * @author shenhufei
-	 *
-	 */
-	void afterDo(Object...obj);
-	
-	/**
-	 * 前后执行执行
-	 * @author shenhufei
-	 *
-	 */
-	void aroundDo(Object...obj);
+	//TODO 立意：前置，后置，环绕方法的执行全部通过 实现该类，并不需要实现具体的类，实现接口只是做标记使用。
 	
 }

@@ -35,17 +35,20 @@ public class InvokeHandler implements Handler {
 		return handler;
 	}
 	public Object doHandler(Request param) throws ClassNotFoundException, MethodNotFoundException, MethodCodeNotFoundException {
+		//TODO  获取前置方法，获取后置方法；环绕方法，这个执行的方法执行的粒度是针对于类还是针对于方法；
+		//TODO  添加自定义注解，注解用在类上面，表示这个
+		
 		// 需要扫描，用户是否是实现了Filter接口，看是否需要执行响应的方法；
 		// 获取服务版本号
 		String versionString = MethodUtils.getMethodVersion(VersionHandler.versionMap, param.getVersion(), param.getCode());
 		// 知道服务版本号，这个版本号就是我们在service层写的注解对应的版本号信息；
 		// 需要去调用那个累的知道了code值就知道了那个接口；
-
+		
 		// 变成Map集合存储的形式会更好，效率会更高
 		if(null==versionString){
 			throw new MethodNotFoundException();
 		}
-		Map<String, Methods> mapMethod = VersionHandler.getListMethod();
+		Map<String, Methods> mapMethod = VersionHandler.getMapMethod();
 		Methods methodsHandler = mapMethod.get(versionString);
 		if(null==methodsHandler){
 			throw new MethodCodeNotFoundException();

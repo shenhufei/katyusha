@@ -20,17 +20,18 @@ import com.shenhufei.Katyusha.model.Methods;
  */
 public class CollectionUtils {
     /**
-     * 将注解数组变成注解集合
+     * 将数组转成对应泛型的集合
      * @author shenhufei
+     * @param <T>
      *
      * @param anno
      * @return
      */
-    public static List<Annotation> transArrayToCollection(Annotation[] anno) {
-        List<Annotation> list = new ArrayList<>();
-        for (Annotation annotatedType : anno) {
-            list.add(annotatedType);
-        }
+    public static <T> List<T> transArrayToCollection(T[] t) {
+        List<T> list = new ArrayList<>();
+        for (T t2 : t) {
+        	list.add(t2);
+		}
         return list;
     }
 

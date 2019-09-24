@@ -3,6 +3,7 @@ package com.shenhufei.Katyusha.core;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,10 +12,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
+import com.shenhufei.Katyusha.anntion.After;
+import com.shenhufei.Katyusha.anntion.Around;
+import com.shenhufei.Katyusha.anntion.Before;
 import com.shenhufei.Katyusha.anntion.Code;
 import com.shenhufei.Katyusha.anntion.Version;
+import com.shenhufei.Katyusha.exception.ClassNotImplementsInterceptorHandlerException;
 import com.shenhufei.Katyusha.exception.MethodCodeNotFoundException;
 import com.shenhufei.Katyusha.exception.MethodCodeValueNotFoundException;
+import com.shenhufei.Katyusha.filter.InterceptorHandler;
 import com.shenhufei.Katyusha.model.Methods;
 import com.shenhufei.Katyusha.utils.CollectionUtils;
 import com.shenhufei.Katyusha.utils.DataUtils;
@@ -45,7 +51,7 @@ public class VersionHandler implements InitializingBean, VersionInit{
      */
     public static List<String> listVersion = new ArrayList<>();
 
-    public static Map<String,Methods> getListMethod() {
+    public static Map<String,Methods> getMapMethod() {
         return mapMethod;
     }
 
@@ -89,15 +95,13 @@ public class VersionHandler implements InitializingBean, VersionInit{
      * @param code
      * @return
      */
-    public  void init() throws Exception {
+    @Override
+    public  void initMethodMap(List<Class<?>> list,List<String> listString) throws Exception {
     	LOGGER.info("init starting");
     	//TODO 需要把这个写死的路径，修改成配置或者。
     	//TODO  方式1：步骤1.可以使用properties 文件，也可以使用xml配置；还必须是可以在多个配置任意以properties ，xml 文件格式的配置文件找那个书写
     	//                                   2.但是必须是这些配置文件中有且仅有一个配置，否则抛出配置多余的异常提示用户；
         //TODO  方式2 1.或者检查有无类实现了 PathHandler 这个接口，拿到这个接口的实现类中的path路径。
-    	List<Class<?>> list = CollectionUtils.getVersionListClass(FileUtils.getClassSet("com.ttpai.stock.biz.service.app"));
-    	// TODO 初始化一个接口名称和 code对应关系的集合；
-        List<String> listString = CollectionUtils.getClassNameList(mapMethod);
     	for (Class<?> class1 : list) {
         	// 有多少类被扫描到了就会有多少个VsersionControllerPojo对象
             Annotation[] annotations = class1.getAnnotations();
@@ -148,12 +152,55 @@ public class VersionHandler implements InitializingBean, VersionInit{
         Methods methodss = DataUtils.getMethods(method, value,((Version) annotation).value(), class1.getName());
         //这个位置使用Map集合来接受 ,handler中查询这个方法的时候速度会更快
         mapMethod.put(methodss.getVersionMethodCode(), methodss);
-
+        
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        init();
+    	//拿到所有包下的字节码文件
+    	List<Class<?>> list = CollectionUtils.getVersionListClass(FileUtils.getClassSet("com.ttpai.stock.biz.service.app"));
+    	//拿到已经添加到Map集合中的类对应的全路径
+        List<String> listString = CollectionUtils.getClassNameList(mapMethod);
+    	//初始化版本控制的方法
+        initMethodMap(list,listString);
+        //TODO 需要扫描包，看那些类实现了Filter接口
+        initBeforeAfterAroundMethods(list,listString);
     }
 
+	private void initBeforeAfterAroundMethods(List<Class<?>> list,
+			List<String> listString) throws  Exception {
+		Collection<Methods> values = mapMethod.values();
+		for (Methods methods : values) {
+			String fullClassName = methods.getFullClassName();
+			Class<?> c=Class.forName(fullClassName);
+			//拿到该类的实现的接口；
+			List<Class<?>> interfaceList = CollectionUtils.transArrayToCollection(c.getInterfaces());
+			//拿到所有的方法
+			Method[] declaredMethods = c.getDeclaredMethods();
+			//遍历所有的方法;
+			//如果这个类实现了InterceptorHandler接口；
+			if(interfaceList.contains(InterceptorHandler.class)){
+				
+			}else{
+				//如果这个类没有实现这个接口，但是还是实现了这个里面的 前置，后置，环绕方法，那么就抛出异常
+				for (Method method : declaredMethods) {
+					List<Annotation> annotationList = CollectionUtils.transArrayToCollection(method.getAnnotations());
+					for (Annotation annotation : annotationList) {
+						if(annotation instanceof Before){
+							throw new ClassNotImplementsInterceptorHandlerException(fullClassName+":not Implements InterceptorHandler");
+						}
+						if(annotation instanceof After){
+							throw new ClassNotImplementsInterceptorHandlerException(fullClassName+":not Implements InterceptorHandler");
+						}
+						if(annotation instanceof Around){
+							throw new ClassNotImplementsInterceptorHandlerException(fullClassName+":not Implements InterceptorHandler");
+						}
+					}
+				}
+			}
+			
+		}
+		
+	}
+	
 }

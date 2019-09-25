@@ -1,39 +1,29 @@
 package com.shenhufei.Katyusha.core;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
-import com.shenhufei.Katyusha.anntion.After;
-import com.shenhufei.Katyusha.anntion.Around;
-import com.shenhufei.Katyusha.anntion.Before;
-import com.shenhufei.Katyusha.anntion.Code;
-import com.shenhufei.Katyusha.anntion.Version;
-import com.shenhufei.Katyusha.exception.ClassNotImplementsInterceptorHandlerException;
-import com.shenhufei.Katyusha.exception.MethodCodeNotFoundException;
-import com.shenhufei.Katyusha.exception.MethodCodeValueNotFoundException;
-import com.shenhufei.Katyusha.filter.InterceptorHandler;
 import com.shenhufei.Katyusha.model.Methods;
 import com.shenhufei.Katyusha.utils.CollectionUtils;
-import com.shenhufei.Katyusha.utils.DataUtils;
 import com.shenhufei.Katyusha.utils.FileUtils;
-import com.shenhufei.Katyusha.utils.StringUtils;
 
 /**
- * 类操作工具类
+ * 类操作工具类	
  *
  * @author shenhufei
  * @since 1.0.0
  */
-public class VersionHandler implements VersionInit,InitializingBean{
+public  abstract class VersionHandler implements VersionInit,InitializingBean{
     private static final Logger LOGGER = LoggerFactory.getLogger(VersionHandler.class);
     
     /**
@@ -102,131 +92,18 @@ public class VersionHandler implements VersionInit,InitializingBean{
 
     }
 
-    /**
-     * 该方法变成那种根据version,code,可以获取到这个版本的方法对应的服务版本号；
-     * 
-     * @author shenhufei
-     *
-     * @param version
-     * @param code
-     * @return
-     */
-    @Override
-    public   void initMethodMap(List<Class<?>> list,List<String> listString) throws Exception {
-    	LOGGER.info("init starting");
-    	//TODO 需要把这个写死的路径，修改成配置或者。
-    	//TODO  方式1：步骤1.可以使用properties 文件，也可以使用xml配置；还必须是可以在多个配置任意以properties ，xml 文件格式的配置文件找那个书写
-    	//                                   2.但是必须是这些配置文件中有且仅有一个配置，否则抛出配置多余的异常提示用户；
-        //TODO  方式2 1.或者检查有无类实现了 PathHandler 这个接口，拿到这个接口的实现类中的path路径。
-    	for (Class<?> class1 : list) {
-        	// 有多少类被扫描到了就会有多少个VsersionControllerPojo对象
-            Annotation[] annotations = class1.getAnnotations();
-            for (Annotation annotation : annotations) {
-                if (annotation instanceof Version) {
-                    // 将所有的类对应的版本信息都录入到集合当中，最后再去重筛选，拿到去重后的版本信息；
-                    // listVersion 把该集合去重；
-                    CollectionUtils.add(listVersion,((Version) annotation).value());
-                    //从已经添加到了Map集合中的方法的类，再次拿来做校验，防止在方法Map集合中添加重复的方法
-                    if (!listString.contains(class1.getName())) {
-                        // 去掉超级父类的方法；
-                        List<Method> listMethods = CollectionUtils.getClassMethod(listObjectMethods,class1.getMethods());
-                        for (Method method : listMethods) {
-                            Annotation[] annotations2 = method.getAnnotations();
-                            if (annotations2.length == 0) {
-                                continue;
-                            }
-                            // 去掉igonre 注解的方法，igonre注解的方法是这个类中不是版本控制的方法
-                            List<Annotation> transArrayToCollection = CollectionUtils.transArrayToCollection(annotations2);
-                            if (!CollectionUtils.hasIgoneAton(transArrayToCollection)) {
-                                // 再去手机方法上面的兼容的版本信息；
-                                // 去掉中间非接口对应的方法
-                                doMethodMap(transArrayToCollection, method,annotation, class1);
-                            }
-                        }
-                    }
-                }
-            }
-		}
-        LOGGER.info("init end");
-    }
-
-    private static void doMethodMap(List<Annotation> transArrayToCollection,
-            Method method, Annotation annotation, Class<?> class1)throws Exception {
-        Code codeAnnotation = CollectionUtils.getCodeAtnn(transArrayToCollection);
-        if (null == codeAnnotation) {
-            throw new MethodCodeNotFoundException(method.getName() + "方法是否添加了code注解");
-        }
-        Integer value = codeAnnotation.value();
-        if (value.equals(-1)) {
-            // 找不到需要抛出异常，而且需要处理那种并不是执行的接口 throw new
-            throw new MethodCodeValueNotFoundException(method.getName() + "方法对应的code注解没有对应的code值");
-        }
-        // 将接口名和对应的code值进行存储
-        map.put(method.getName(), value);
-        // 记录方法和其对应的支持的那些版本的服务进行记录
-        StringUtils.getMethodVersionCode(versionMap, transArrayToCollection,value, ((Version) annotation).value());
-        Methods methodss = DataUtils.getMethods(method, value,((Version) annotation).value(), class1.getName());
-        //这个位置使用Map集合来接受 ,handler中查询这个方法的时候速度会更快
-        mapMethod.put(methodss.getVersionMethodCode(), methodss);
-        
-    }
-  
-    @Override
-    public  void initBeforeAfterAroundMethods(List<Class<?>> list,List<String> listString) throws  Exception {
-		Collection<Methods> values = mapMethod.values();
-		for (Methods methods : values) {
-			String fullClassName = methods.getFullClassName();
-			Class<?> c=Class.forName(fullClassName);
-			//拿到该类的实现的接口；
-			List<Class<?>> interfaceList = CollectionUtils.transArrayToCollection(c.getInterfaces());
-			//拿到所有的方法
-			Method[] declaredMethods = c.getDeclaredMethods();
-			//遍历所有的方法;
-			//如果这个类实现了InterceptorHandler接口；
-			if(interfaceList.contains(InterceptorHandler.class)){
-				
-			}else{
-				checkInterceptorHandler(declaredMethods,fullClassName);
-			}
-			
-		}
-		
-	}
-
-	/**
-	 * 如果这个类没有实现这个接口，但是还是实现了这个里面的 前置，后置，环绕方法，那么就抛出异常
-	 * @author shenhufei
-	 *
-	 * @param declaredMethods
-	 * @throws ClassNotImplementsInterceptorHandlerException 
-	 */
-	private static void checkInterceptorHandler(Method[] declaredMethods,String fullClassName) throws ClassNotImplementsInterceptorHandlerException {
-		for (Method method : declaredMethods) {
-			List<Annotation> annotationList = CollectionUtils.transArrayToCollection(method.getAnnotations());
-			for (Annotation annotation : annotationList) {
-				if(annotation instanceof Before){
-					throw new ClassNotImplementsInterceptorHandlerException(fullClassName+":not Implements InterceptorHandler");
-				}
-				if(annotation instanceof After){
-					throw new ClassNotImplementsInterceptorHandlerException(fullClassName+":not Implements InterceptorHandler");
-				}
-				if(annotation instanceof Around){
-					throw new ClassNotImplementsInterceptorHandlerException(fullClassName+":not Implements InterceptorHandler");
-				}
-			}
-		}
-		
-	}
-
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		  list = CollectionUtils.getVersionListClass(FileUtils.getClassSet("com.ttpai.stock.biz.service.app"));
 	      // TODO初始化一个接口名称和 code对应关系的集合；
 		  listString= CollectionUtils.getClassNameList(mapMethod);
-	      //TODO 开多线程进行加载初始化；
-	      initMethodMap(list,listString);
-	      initBeforeAfterAroundMethods(list,listString);
-		
+	      ExecutorService executor = Executors.newCachedThreadPool();
+          CountDownLatch latch = new CountDownLatch(2);
+          MethodMap m1 = new MethodMap(latch);
+          BeforeAfterAroundMethods m2 = new BeforeAfterAroundMethods(latch);
+          executor.execute(m1);
+          executor.execute(m2);
+          executor.shutdown();
 	}
 	
 }

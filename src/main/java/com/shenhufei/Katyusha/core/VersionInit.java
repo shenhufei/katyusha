@@ -18,5 +18,5 @@ public interface VersionInit {
 	 * @param listString
 	 * @throws Exception
 	 */
-	void initBeforeAfterAroundMethods(List<Class<?>> list,List<String> listString) throws  Exception; 
+	void initBeforeAfterAroundMethods() throws  Exception;
 }

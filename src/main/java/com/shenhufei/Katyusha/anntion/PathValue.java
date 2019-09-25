@@ -15,6 +15,6 @@ import java.lang.annotation.Target;
 @Target({ ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Path {
+public @interface PathValue {
 	 public String value() default "";
 }

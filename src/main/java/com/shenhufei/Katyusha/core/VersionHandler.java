@@ -3,12 +3,16 @@ package com.shenhufei.Katyusha.core;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.ServiceLoader;
+import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -93,8 +97,9 @@ public abstract class VersionHandler implements VersionInit, InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
+		
 		list = CollectionUtils.getVersionListClass(
-				FileUtils.getClassSet("com.ttpai.stock.biz.service.app"));
+				FileUtils.getClassSet("learn.test.impl"));
 		// TODO初始化一个接口名称和 code对应关系的集合；
 		listString = CollectionUtils.getClassNameList(mapMethod);
 		ExecutorService executor = Executors.newCachedThreadPool();
@@ -109,6 +114,12 @@ public abstract class VersionHandler implements VersionInit, InitializingBean {
 	
 	//TODO 此处需要将测试的main方法全部去掉
 	public static void main(String[] args) {
+		//获取一个接口下所有的实现类
+		Reflections reflections = new Reflections("learn.test");
+        Set<Class<? extends PathHandler>> classes = reflections.getSubTypesOf(PathHandler.class);
+        for(Class<?> clazz : classes) {
+            System.out.println("Found: " + clazz.getName());
+        }
 		LOGGER.info("init start");
 		list = CollectionUtils.getVersionListClass(FileUtils.getClassSet("learn.test.impl"));
 		// TODO初始化一个接口名称和 code对应关系的集合；

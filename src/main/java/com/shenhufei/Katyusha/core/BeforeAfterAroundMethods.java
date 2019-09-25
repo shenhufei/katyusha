@@ -54,8 +54,7 @@ public  class BeforeAfterAroundMethods implements Runnable {
 			String fullClassName = methods.getFullClassName();
 			Class<?> c = Class.forName(fullClassName);
 			// 拿到该类的实现的接口；
-			List<Class<?>> interfaceList = CollectionUtils
-					.transArrayToCollection(c.getInterfaces());
+			List<Class<?>> interfaceList = CollectionUtils.transArrayToCollection(c.getInterfaces());
 			// 拿到所有的方法
 			Method[] declaredMethods = c.getDeclaredMethods();
 			// 遍历所有的方法;

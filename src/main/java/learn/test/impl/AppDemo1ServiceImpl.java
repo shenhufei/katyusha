@@ -37,7 +37,7 @@ public class AppDemo1ServiceImpl implements AppDemo1Service {
     @Code(3021)
     public void getStockCheckTaskDetail(String jsonString)
             throws ParseException {
-        
+        System.out.println("3021方法执行了");
     }
 
     /**

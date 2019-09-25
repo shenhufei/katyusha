@@ -17,12 +17,14 @@ import com.shenhufei.Katyusha.anntion.Around;
 import com.shenhufei.Katyusha.anntion.Before;
 import com.shenhufei.Katyusha.anntion.Code;
 import com.shenhufei.Katyusha.anntion.Version;
+import com.shenhufei.Katyusha.core.InvokeMethodHandler;
 import com.shenhufei.Katyusha.core.VersionHandler;
 import com.shenhufei.Katyusha.exception.ClassNotImplementsInterceptorHandlerException;
 import com.shenhufei.Katyusha.exception.MethodCodeNotFoundException;
 import com.shenhufei.Katyusha.exception.MethodCodeValueNotFoundException;
 import com.shenhufei.Katyusha.filter.InterceptorHandler;
 import com.shenhufei.Katyusha.model.Methods;
+import com.shenhufei.Katyusha.model.Request;
 import com.shenhufei.Katyusha.utils.CollectionUtils;
 import com.shenhufei.Katyusha.utils.DataUtils;
 import com.shenhufei.Katyusha.utils.FileUtils;
@@ -131,6 +133,7 @@ public class Demo  {
                 }
             }
 		}
+    	LOGGER.info("versionMap长度："+versionMap.size());
         LOGGER.info("init end");
     }
 
@@ -165,6 +168,12 @@ public class Demo  {
         
         //TODO 需要扫描包，看那些类实现了Filter接口
         initBeforeAfterAroundMethods(list);
+        
+        InvokeMethodHandler handler = InvokeMethodHandler.getInstance();
+		Request param = new Request();
+		param.setVersion("1.0.1");
+		param.setCode(3021);
+		handler.doHandler(param);
 	}
 
 	private static void initBeforeAfterAroundMethods(List<Class<?>> list) throws  Exception {
@@ -189,7 +198,6 @@ public class Demo  {
 			}
 			
 		}
-		
 	}
 
 	/**

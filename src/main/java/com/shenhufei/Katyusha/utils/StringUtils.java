@@ -9,20 +9,19 @@ import com.shenhufei.Katyusha.anntion.MethodVersion;
 
 public class StringUtils {
     public static void getMethodVersionCode(Map<String, String> versionMap,
-            List<Annotation> transArrayToCollection, Integer code,
-            String version) {
+            List<Annotation> transArrayToCollection, Integer code,String version) {
         MethodVersion versionAtnn = getMethodVersionAtnn(
                 transArrayToCollection);
         // 拿到当前方法对应支持那些版本的代码
         String[] value = ((MethodVersion) versionAtnn).value();
         String str = "";
         if (null != value) {
-            String[] split = value[0].split("\\,");
-            if (null != split) {
-                for (int i = 0; i < split.length; i++) {
-                    str = str + code + "_" + split[i] + ",";
+            if (null != value) {
+                for (int i = 0; i < value.length; i++) {
+                    str = str + code + "_" + value[i] + ",";
+                    versionMap.put(code + "_" + version, str);
                 }
-                versionMap.put(code + "_" + version, str);
+                
             }
         }
     }

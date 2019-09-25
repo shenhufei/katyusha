@@ -10,7 +10,6 @@ import com.shenhufei.Katyusha.exception.MethodCodeNotFoundException;
 import com.shenhufei.Katyusha.exception.MethodNotFoundException;
 import com.shenhufei.Katyusha.model.Methods;
 import com.shenhufei.Katyusha.model.Request;
-import com.shenhufei.Katyusha.test.Demo;
 import com.shenhufei.Katyusha.utils.MethodUtils;
 
 /**
@@ -41,7 +40,7 @@ public class InvokeMethodHandler implements InvokeHandler {
 		
 		// 需要扫描，用户是否是实现了Filter接口，看是否需要执行响应的方法；
 		// 获取服务版本号
-		String versionString = MethodUtils.getMethodVersion(Demo.getVersionMap(), param.getVersion(), param.getCode());
+		String versionString = MethodUtils.getMethodVersion(VersionHandler.getVersionMap(), param.getVersion(), param.getCode());
 		// 知道服务版本号，这个版本号就是我们在service层写的注解对应的版本号信息；
 		// 需要去调用那个累的知道了code值就知道了那个接口；
 		

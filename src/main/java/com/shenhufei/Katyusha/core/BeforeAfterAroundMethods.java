@@ -38,7 +38,7 @@ public  class BeforeAfterAroundMethods implements Runnable {
 			LOGGER.info("BeforeAfterAroundMethods init start");
 			initBeforeAfterAroundMethods();
 			LOGGER.info("BeforeAfterAroundMethods init end");
-			
+			LOGGER.info("init end");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

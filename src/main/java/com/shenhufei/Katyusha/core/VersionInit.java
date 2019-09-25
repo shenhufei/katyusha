@@ -10,4 +10,13 @@ public interface VersionInit {
 	 * @throws Exception
 	 */
 	void  initMethodMap(List<Class<?>> list, List<String> listString)throws Exception;
+	/**
+	 * 加载前置，后置，环绕方法
+	 * @author shenhufei
+	 *
+	 * @param list
+	 * @param listString
+	 * @throws Exception
+	 */
+	void initBeforeAfterAroundMethods(List<Class<?>> list,List<String> listString) throws  Exception; 
 }

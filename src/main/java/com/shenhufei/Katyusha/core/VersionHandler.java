@@ -33,9 +33,25 @@ import com.shenhufei.Katyusha.utils.StringUtils;
  * @author shenhufei
  * @since 1.0.0
  */
-public class VersionHandler {
+public class VersionHandler implements VersionInit,InitializingBean{
     private static final Logger LOGGER = LoggerFactory.getLogger(VersionHandler.class);
-    public static Map<String,Methods> mapMethod = new HashMap<String,Methods>();
+    
+    /**
+     * 扫描的字节码文件
+     */
+    public static List<Class<?>> list ;
+    
+    public static List<String> listString ;
+    public static List<String> getListString() {
+		return listString;
+	}
+
+	public static void setListString(List<String> listString) {
+		VersionHandler.listString = listString;
+	}
+
+
+	public static Map<String,Methods> mapMethod = new HashMap<String,Methods>();
     /**
      * 获取超级父类中的所有方法，准备在后续操作中，将这些过滤掉
      */
@@ -95,7 +111,8 @@ public class VersionHandler {
      * @param code
      * @return
      */
-    public static  void initMethodMap(List<Class<?>> list,List<String> listString) throws Exception {
+    @Override
+    public   void initMethodMap(List<Class<?>> list,List<String> listString) throws Exception {
     	LOGGER.info("init starting");
     	//TODO 需要把这个写死的路径，修改成配置或者。
     	//TODO  方式1：步骤1.可以使用properties 文件，也可以使用xml配置；还必须是可以在多个配置任意以properties ，xml 文件格式的配置文件找那个书写
@@ -123,7 +140,7 @@ public class VersionHandler {
                             if (!CollectionUtils.hasIgoneAton(transArrayToCollection)) {
                                 // 再去手机方法上面的兼容的版本信息；
                                 // 去掉中间非接口对应的方法
-                                doInit(transArrayToCollection, method,annotation, class1);
+                                doMethodMap(transArrayToCollection, method,annotation, class1);
                             }
                         }
                     }
@@ -133,7 +150,7 @@ public class VersionHandler {
         LOGGER.info("init end");
     }
 
-    private static void doInit(List<Annotation> transArrayToCollection,
+    private static void doMethodMap(List<Annotation> transArrayToCollection,
             Method method, Annotation annotation, Class<?> class1)throws Exception {
         Code codeAnnotation = CollectionUtils.getCodeAtnn(transArrayToCollection);
         if (null == codeAnnotation) {
@@ -153,21 +170,9 @@ public class VersionHandler {
         mapMethod.put(methodss.getVersionMethodCode(), methodss);
         
     }
-
-   
-    public static void main(String[] args) throws Exception {
-    	//拿到所有包下的字节码文件
-    	List<Class<?>> list = CollectionUtils.getVersionListClass(FileUtils.getClassSet("learn.test"));
-    	//拿到已经添加到Map集合中的类对应的全路径
-        List<String> listString = CollectionUtils.getClassNameList(mapMethod);
-    	//初始化版本控制的方法
-        initMethodMap(list,listString);
-        //TODO 需要扫描包，看那些类实现了Filter接口
-        initBeforeAfterAroundMethods(list,listString);
-	}
-
-	private static void initBeforeAfterAroundMethods(List<Class<?>> list,
-			List<String> listString) throws  Exception {
+  
+    @Override
+    public  void initBeforeAfterAroundMethods(List<Class<?>> list,List<String> listString) throws  Exception {
 		Collection<Methods> values = mapMethod.values();
 		for (Methods methods : values) {
 			String fullClassName = methods.getFullClassName();
@@ -210,6 +215,17 @@ public class VersionHandler {
 				}
 			}
 		}
+		
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		  list = CollectionUtils.getVersionListClass(FileUtils.getClassSet("com.ttpai.stock.biz.service.app"));
+	      // TODO初始化一个接口名称和 code对应关系的集合；
+		  listString= CollectionUtils.getClassNameList(mapMethod);
+	      //TODO 开多线程进行加载初始化；
+	      initMethodMap(list,listString);
+	      initBeforeAfterAroundMethods(list,listString);
 		
 	}
 	

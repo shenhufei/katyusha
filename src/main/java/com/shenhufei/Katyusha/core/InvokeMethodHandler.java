@@ -54,7 +54,7 @@ public class InvokeMethodHandler implements InvokeHandler {
 		if(null==methodsHandler){
 			throw new MethodCodeNotFoundException();
 		}
-		Object object = BeanFactory.getBean(methodsHandler.getClassName());
+		Object object = BeanFactory.getInstance().getBean(methodsHandler.getClassName());
 		Class<?> fullClassName = Class.forName(methodsHandler.getFullClassName());
 		Class<?>[] parameterTypes = methodsHandler.getParameterTypes();
 		Method method2 = ReflectionUtils.findMethod(fullClassName,methodsHandler.getMethodName(), parameterTypes);

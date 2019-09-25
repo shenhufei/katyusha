@@ -6,6 +6,14 @@ import org.springframework.context.ApplicationContextAware;
 
 public class BeanFactory implements ApplicationContextAware {
     private static ApplicationContext applicationContext;
+   
+    private static BeanFactory beanFactory;
+    public  static synchronized BeanFactory getInstance(){
+    	if(null==beanFactory){
+    		beanFactory = new BeanFactory();
+    	}
+    	return beanFactory;
+    }
 
     /**
      * 实现ApplicationContextAware接口的回调方法，设置上下文环境
@@ -20,7 +28,7 @@ public class BeanFactory implements ApplicationContextAware {
      * 
      * @return ApplicationContext spring上下文
      */
-    public static ApplicationContext getApplicationContext() {
+    public  ApplicationContext getApplicationContext() {
         return applicationContext;
     }
 
@@ -31,7 +39,7 @@ public class BeanFactory implements ApplicationContextAware {
      *            service注解方式name为小驼峰格式
      * @return Object bean的实例对象
      */
-    public static Object getBean(String name) throws BeansException {
+    public  Object getBean(String name) throws BeansException {
         return applicationContext.getBean(name);
     }
 

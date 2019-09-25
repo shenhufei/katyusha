@@ -17,9 +17,14 @@ import com.shenhufei.Katyusha.utils.CollectionUtils;
 import com.shenhufei.Katyusha.utils.DataUtils;
 import com.shenhufei.Katyusha.utils.StringUtils;
 
+/**
+ * 版本控制方法执行初始化类
+ * @date 2019年9月25日  
+ * @version 1.0  
+ * @author shenhufei
+ */
 public  class MethodMap implements Runnable {
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(MethodMap.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(MethodMap.class);
 
 	private CountDownLatch downLatch;
 
@@ -33,7 +38,9 @@ public  class MethodMap implements Runnable {
 		List<Class<?>> list = VersionHandler.list;
 		List<String> listString = VersionHandler.getListString();
 		try {
+			LOGGER.info("MethodMap init start");
 			initMethodMap(list,listString);
+			LOGGER.info("MethodMap init end");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -42,7 +49,7 @@ public  class MethodMap implements Runnable {
 	}
 	
 	public void initMethodMap(List<Class<?>> list, List<String> listString)throws Exception {
-		LOGGER.info("init starting");
+		LOGGER.info("MethodMap initing");
 		// TODO 需要把这个写死的路径，修改成配置或者。
 		// TODO 方式1：步骤1.可以使用properties 文件，也可以使用xml配置；还必须是可以在多个配置任意以properties
 		// ，xml 文件格式的配置文件找那个书写
@@ -84,7 +91,7 @@ public  class MethodMap implements Runnable {
 				}
 			}
 		}
-		LOGGER.info("init end");
+		
 	}
 
 	private static void doMethodMap(List<Annotation> transArrayToCollection,

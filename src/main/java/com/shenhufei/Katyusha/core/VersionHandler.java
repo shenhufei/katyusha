@@ -106,4 +106,19 @@ public  abstract class VersionHandler implements VersionInit,InitializingBean{
           executor.shutdown();
 	}
 	
+	public static void main(String[] args) {
+		LOGGER.info("init start");
+		  list = CollectionUtils.getVersionListClass(FileUtils.getClassSet("learn.test.impl"));
+	      // TODO初始化一个接口名称和 code对应关系的集合；
+		  listString= CollectionUtils.getClassNameList(mapMethod);
+	      ExecutorService executor = Executors.newCachedThreadPool();
+         CountDownLatch latch = new CountDownLatch(2);
+         MethodMap m1 = new MethodMap(latch);
+         BeforeAfterAroundMethods m2 = new BeforeAfterAroundMethods(latch);
+         executor.execute(m1);
+         executor.execute(m2);
+         executor.shutdown();
+         LOGGER.info("init end");
+	}
+	
 }

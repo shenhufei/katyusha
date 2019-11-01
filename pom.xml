@@ -5,10 +5,11 @@
 	<groupId>com.shenhufei</groupId>
 	<artifactId>Katyusha</artifactId>
 	<version>1.0.1</version>
-	<packaging>jar</packaging>
+	<packaging>pom</packaging>
 
 	<name>Katyusha</name>
 	<url>http://maven.apache.org</url>
+	
 
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -17,6 +18,10 @@
 	</properties>
 
 	<dependencies>
+		<groupId>com.shenhufei</groupId>
+  		<artifactId>PPSh-41</artifactId>
+  		<version>1.0.1</version>
+		
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -71,4 +76,7 @@
 			<version>0.9.11</version>
 		</dependency>
 	</dependencies>
+	<modules>
+		<module>PPSh-41</module>
+	</modules>
 </project>

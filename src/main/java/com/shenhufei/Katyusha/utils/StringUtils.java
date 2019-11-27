@@ -15,14 +15,12 @@ public class StringUtils {
         // 拿到当前方法对应支持那些版本的代码
         String[] value = ((MethodVersion) versionAtnn).value();
         String str = "";
-        if (null != value) {
             if (null != value) {
                 for (int i = 0; i < value.length; i++) {
                     str = str + code + "_" + value[i] + ",";
                     versionMap.put(code + "_" + version, str);
                 }
                 
-            }
         }
     }
 

@@ -28,7 +28,7 @@ public class MakeDealerData2 {
             // jxl提供的Workbook类
             Workbook wb = Workbook.getWorkbook(is);
             // 获取区域信息
-            String string = null;//HttpClientUtil.get("http://pubapi.ttpai.cn/v1.0/common/zone/list");
+            String string = null;
             List<ZoneVO>  zoneList = new ArrayList<>();//JSONUtil.parseJsonList(string, ZoneVO.class);
             
             
@@ -45,7 +45,7 @@ public class MakeDealerData2 {
                 //String password = PasswordHash.createHash("123456");
                 String password = "123456";
                 for (int i = 1; i < sheet.getRows(); i++) {
-                	System.out.print("INSERT INTO ttpai_sso.SSO_USERS(ACCOUNT,MOBILE_PHONE,PSWD,PROVINCE_ID,ZONE_ID,ADMIN_ID,ADMIN_PROVINCE_ID,ADMIN_ZONE_ID,COMPANY_NAME,LEADER_NAME,REGISTER_SOURCE,TYPE,REGISTER_TIME,LAST_UPDATE_TIME,ID_CARD_NUMBER,USER_ADD_SOURCE,COMPANY_LICENSE_NUMBER) VALUES ");
+                	System.out.print("INSERT INTO(ACCOUNT,MOBILE_PHONE,PSWD,PROVINCE_ID,ZONE_ID,ADMIN_ID,ADMIN_PROVINCE_ID,ADMIN_ZONE_ID,COMPANY_NAME,LEADER_NAME,REGISTER_SOURCE,TYPE,REGISTER_TIME,LAST_UPDATE_TIME,ID_CARD_NUMBER,USER_ADD_SOURCE,COMPANY_LICENSE_NUMBER) VALUES ");
                 	/*List innerList=new ArrayList();
                     // sheet.getColumns()返回该页的总列数
                     for (int j = 0; j < sheet.getColumns(); j++) {
@@ -96,7 +96,7 @@ public class MakeDealerData2 {
                         }
                     }
                     
-                    System.out.print("INSERT INTO ttpai_sso.SSO_BUSINESS_USERS_BANK_INFO (BUSINESS_ID, BANK_CARD_NO, BANK_ACCOUNT_PERSON_NAME, BANK_ACCOUNT_BANK_NAME, BANK_ACCOUNT_BANK_BRANCH, BANK_ACCOUNT_PROVINCE, BANK_ACCOUNT_CITY, BANK_DEFAULT, CREATE_TIME) VALUES ");
+                    System.out.print("INSERT INTO (BUSINESS_ID, BANK_CARD_NO, BANK_ACCOUNT_PERSON_NAME, BANK_ACCOUNT_BANK_NAME, BANK_ACCOUNT_BANK_BRANCH, BANK_ACCOUNT_PROVINCE, BANK_ACCOUNT_CITY, BANK_DEFAULT, CREATE_TIME) VALUES ");
                     System.out.print("(LAST_INSERT_ID(),'"+bankCardNo+"','"+personName+"','"+bankName+"','"+branchBank+"','"+accountProvince+"',"+accountCityId+",1,NOW());");
                 
                     System.out.println();

@@ -15,7 +15,7 @@ public class InsertIntoMysql {
 
 		String driver = "com.mysql.jdbc.Driver";
 		// URL指向要访问的数据库名mydata
-		String url = "jdbc:mysql://localhost:3306/ttpai_pai";
+		String url = "jdbc:mysql://localhost:3306/";
 		// MySQL配置时的用户名
 		String user = "root";
 		// MySQL配置时的密码
@@ -59,7 +59,7 @@ public class InsertIntoMysql {
 	
 	
 	static String getInsertSql(Integer i){
-		return "INSERT INTO ttpai_pai.TTP_DEALER_SEA_FLOW(FLOW_TYPE,DEALER_ID,CHECK_STATUS,CREATE_TIME,MODIFY_TIME) " +
+		return "INSERT INTO FLOW_TYPE,DEALER_ID,CHECK_STATUS,CREATE_TIME,MODIFY_TIME) " +
 				" VALUES (2,"+ i+",1,'2019-08-27 11:40:27','2019-08-27 11:40:27')" ;
 	}
 

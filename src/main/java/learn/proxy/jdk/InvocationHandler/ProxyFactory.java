@@ -11,7 +11,6 @@ public class ProxyFactory {
 		public ProxyFactory(Object target){
 			this.target = target;
 		}
-		@Override
 		public Object getProxyObject(){
 			return Proxy.newProxyInstance(target.getClass().getClassLoader(), target.getClass().getInterfaces(), new InvocationHandler() {
 				@Override

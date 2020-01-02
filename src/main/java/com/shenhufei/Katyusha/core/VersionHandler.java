@@ -110,7 +110,7 @@ public abstract class VersionHandler implements VersionInit, InitializingBean {
 		ExecutorService executor = Executors.newCachedThreadPool();
 		CountDownLatch latch = new CountDownLatch(2);
 		MethodMap m1 = new MethodMap(latch);
-		BeforeAfterAroundMethods m2 = new BeforeAfterAroundMethods(latch);
+		FilterMethodHandler m2 = new FilterMethodHandler(latch);
 		executor.execute(m1);
 		executor.execute(m2);
 		executor.shutdown();
@@ -131,7 +131,7 @@ public abstract class VersionHandler implements VersionInit, InitializingBean {
 		ExecutorService executor = Executors.newCachedThreadPool();
 		CountDownLatch latch = new CountDownLatch(2);
 		MethodMap task1 = new MethodMap(latch);
-		BeforeAfterAroundMethods task2 = new BeforeAfterAroundMethods(latch);
+		FilterMethodHandler task2 = new FilterMethodHandler(latch);
 		executor.execute(task1);
 		executor.execute(task2);
 		executor.shutdown();

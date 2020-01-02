@@ -9,6 +9,7 @@ public class Teacher implements Callback{
     public void askQuestion() {
         student.resolveQuestion(this);
     }
+    @Override
     public void tellAnswer(int answer) {
         System.out.println("i konw you answer is "+answer);
     }

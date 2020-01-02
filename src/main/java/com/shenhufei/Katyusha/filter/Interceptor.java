@@ -6,7 +6,7 @@ package com.shenhufei.Katyusha.filter;
  * @version 1.0  
  * @author shenhufei
  */
-public interface InterceptorHandler {
+public interface Interceptor{
 	//TODO 立意：前置，后置，环绕方法的执行全部通过 实现该类，并不需要实现具体的类，实现接口只是做标记使用。
 	
 }

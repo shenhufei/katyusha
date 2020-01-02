@@ -69,8 +69,9 @@ public class CollectionUtils {
             Method[] methods) {
         List<Method> arrayList = new ArrayList<Method>();
         for (Method method : methods) {
-            if (!listObjectMethods.contains(method))
-                arrayList.add(method);
+            if (!listObjectMethods.contains(method)){
+            	arrayList.add(method);
+            }
         }
         return arrayList;
     }
@@ -86,13 +87,15 @@ public class CollectionUtils {
         List<Class<?>> result = new ArrayList<Class<?>>();
         for (Class<?> class1 : listClass) {
             List<Annotation> list = CollectionUtils.transArrayToCollection(class1.getAnnotations());
-            if(!org.springframework.util.CollectionUtils.isEmpty(list))
-                for (Annotation annotation : list) {
+            if(!org.springframework.util.CollectionUtils.isEmpty(list)){
+            	for (Annotation annotation : list) {
                 	//判断如果是类上加了 @See Version 这个注解的类才是我们需要加载的类
                     if (annotation instanceof Version) {
                         result.add(class1);
                     }
-                }
+                }	
+            }
+                
         }
         return result;
     }

@@ -13,7 +13,7 @@ import com.shenhufei.Katyusha.anntion.After;
 import com.shenhufei.Katyusha.anntion.Around;
 import com.shenhufei.Katyusha.anntion.Before;
 import com.shenhufei.Katyusha.exception.ClassNotImplementsInterceptorHandlerException;
-import com.shenhufei.Katyusha.filter.InterceptorHandler;
+import com.shenhufei.Katyusha.filter.Interceptor;
 import com.shenhufei.Katyusha.model.Methods;
 import com.shenhufei.Katyusha.utils.CollectionUtils;
 
@@ -23,12 +23,14 @@ import com.shenhufei.Katyusha.utils.CollectionUtils;
  * @version 1.0  
  * @author shenhufei
  */
-public  class BeforeAfterAroundMethods implements Runnable {
-	private static final Logger LOGGER = LoggerFactory.getLogger(BeforeAfterAroundMethods.class);
+public  class FilterMethodHandler implements Runnable {
+	
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(FilterMethodHandler.class);
 
 	private CountDownLatch downLatch;
 
-	public BeforeAfterAroundMethods(CountDownLatch downLatch) {
+	public FilterMethodHandler(CountDownLatch downLatch) {
 		this.downLatch = downLatch;
 	}
 
@@ -59,8 +61,9 @@ public  class BeforeAfterAroundMethods implements Runnable {
 			Method[] declaredMethods = c.getDeclaredMethods();
 			// 遍历所有的方法;
 			// 如果这个类实现了InterceptorHandler接口；
-			if (interfaceList.contains(InterceptorHandler.class)) {
-
+			if (interfaceList.contains(Interceptor.class)) {
+				//TODO 需要去记录每个方法都实现了那些注解
+				
 			} else {
 				checkInterceptorHandler(declaredMethods, fullClassName);
 			}

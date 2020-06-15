@@ -5,6 +5,10 @@
 	<groupId>com.shenhufei</groupId>
 	<artifactId>Katyusha</artifactId>
 	<version>1.0.1</version>
+	<modules>
+		<module>springBoot</module>
+		<module>versionController</module>
+	</modules>
 	<packaging>pom</packaging>
 
 	<name>Katyusha</name>
@@ -18,9 +22,6 @@
 	</properties>
 
 	<dependencies>
-		<groupId>com.shenhufei</groupId>
-		<artifactId>PPSh-41</artifactId>
-		<version>1.0.1</version>
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -92,6 +93,13 @@
 			<version>5.1.6</version>
 		</dependency>
 
+		<!--导入jedis包-->
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>2.7.2</version>
+		</dependency>
+
         <!--  -->
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
@@ -111,9 +119,5 @@
     		<artifactId>guava</artifactId>
    		 	<version>23.0</version>
 		</dependency>
-
 	</dependencies>
-	<modules>
-		<module>PPSh-41</module>
-	</modules>
 </project>

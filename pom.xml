@@ -13,7 +13,12 @@
 
 	<name>Katyusha</name>
 	<url>http://maven.apache.org</url>
-
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.2.RELEASE</version>
+		<relativePath/>
+	</parent>
 
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -22,7 +27,24 @@
 	</properties>
 
 	<dependencies>
-
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>slf4j-api</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-beans</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-core</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -45,19 +67,9 @@
 			<version>1.2.55</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-			<version>1.5.9.RELEASE</version>
-		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter -->
 		<!-- <dependency> <groupId>org.mybatis.spring.boot</groupId> <artifactId>mybatis-spring-boot-starter</artifactId> 
 			<version>2.0.1</version> </dependency> -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-beans</artifactId>
-			<version>4.3.2.RELEASE</version>
-		</dependency>
 		<!-- cglib动态代理的类 -->
 		<dependency>
 			<groupId>cglib</groupId>
@@ -70,11 +82,16 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.9</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.reflections</groupId>
 			<artifactId>reflections</artifactId>
 			<version>0.9.11</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>guava</artifactId>
+					<groupId>com.google.guava</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!--jxl -->
@@ -84,9 +101,6 @@
 			<version>2.6.12</version>
 		</dependency>
 
-		<!-- <dependency> <groupId>com.github.msteindorfer</groupId> <artifactId>memory-measurer</artifactId> 
-			<version>0.1.0-SNAPSHOT</version> </dependency> <dependency> <groupId>org.openjdk.jol</groupId> 
-			<artifactId>jol-core</artifactId> <version>0.9</version> </dependency> -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>

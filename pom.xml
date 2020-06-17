@@ -8,7 +8,8 @@
 	<modules>
 		<module>springBoot</module>
 		<module>versionController</module>
-	</modules>
+        <module>T34</module>
+    </modules>
 	<packaging>pom</packaging>
 
 	<name>Katyusha</name>

@@ -9,7 +9,8 @@
 		<module>springBoot</module>
 		<module>versionController</module>
         <module>T34</module>
-    </modules>
+		<module>dividedb</module>
+	</modules>
 	<packaging>pom</packaging>
 
 	<name>Katyusha</name>

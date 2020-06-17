@@ -10,6 +10,7 @@
 		<module>versionController</module>
         <module>T34</module>
 		<module>dividedb</module>
+		<module>design_patterns</module>
 	</modules>
 	<packaging>pom</packaging>
 

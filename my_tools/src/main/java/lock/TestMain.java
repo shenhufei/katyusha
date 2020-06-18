@@ -9,7 +9,24 @@ import sun.misc.Unsafe;
  * @date 20200617
  */
 public class TestMain {
-    public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException {
-        Unsafe unsafe = MyLock.getUnsafe();
+    MyLock mylock;
+
+    {
+        try {
+            mylock = new MyLock();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
+
+    public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException {
+        for ( int i=0 ; i<10 ; i++){
+            MyThread thread = new MyThread();
+            thread.start();
+        }
+
+    }
+
 }

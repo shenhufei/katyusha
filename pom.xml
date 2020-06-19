@@ -12,7 +12,8 @@
 		<module>dividedb</module>
 		<module>design_patterns</module>
 		<module>myTools</module>
-	</modules>
+        <module>springBoot_mybatis_templates</module>
+    </modules>
 	<packaging>pom</packaging>
 
 	<name>Katyusha</name>

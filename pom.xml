@@ -1,29 +1,23 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.shenhufei</groupId>
 	<artifactId>Katyusha</artifactId>
 	<version>1.0.1</version>
 	<modules>
-		<module>springBoot</module>
-		<module>versionController</module>
-        <module>T34</module>
+		<module>springBoot_templates</module>
+		<module>version_controller</module>
 		<module>dividedb</module>
 		<module>design_patterns</module>
-		<module>myTools</module>
-        <module>springBoot_mybatis_templates</module>
-    </modules>
+		<module>my_tools</module>
+		<module>springBoot_mybatis_templates</module>
+		<module>spring</module>
+	</modules>
 	<packaging>pom</packaging>
 
 	<name>Katyusha</name>
 	<url>http://maven.apache.org</url>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.2.RELEASE</version>
-		<relativePath/>
-	</parent>
 
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -73,7 +67,7 @@
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter -->
-		<!-- <dependency> <groupId>org.mybatis.spring.boot</groupId> <artifactId>mybatis-spring-boot-starter</artifactId> 
+		<!-- <dependency> <groupId>org.mybatis.spring.boot</groupId> <artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>2.0.1</version> </dependency> -->
 		<!-- cglib动态代理的类 -->
 		<dependency>
@@ -119,24 +113,24 @@
 			<version>2.7.2</version>
 		</dependency>
 
-        <!--  -->
+		<!--  -->
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-core</artifactId>
 			<version>4.0.0</version>
 		</dependency>
-		
+
 		<!-- 腾讯图片识别 -->
 		<dependency>
-            <groupId>com.tencentcloudapi</groupId>
-            <artifactId>tencentcloud-sdk-java</artifactId>
-            <version>3.0.80</version>
-        </dependency>
+			<groupId>com.tencentcloudapi</groupId>
+			<artifactId>tencentcloud-sdk-java</artifactId>
+			<version>3.0.80</version>
+		</dependency>
 		<!-- google guava -->
 		<dependency>
-    		<groupId>com.google.guava</groupId>
-    		<artifactId>guava</artifactId>
-   		 	<version>23.0</version>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>23.0</version>
 		</dependency>
 
 		<dependency>

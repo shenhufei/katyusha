@@ -7,10 +7,10 @@
 	<version>1.0.1</version>
 	<modules>
 		<module>springBoot_templates</module>
-		<module>version_controller</module>
+		<module>learn</module>
         <module>design_patterns</module>
 		<module>dividedb</module>
-		<module>learn</module>
+		<module>version_controller</module>
 		<module>my_tools</module>
         <module>springBoot_mybatis_templates</module>
         <module>base</module>

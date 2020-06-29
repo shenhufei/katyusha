@@ -1,4 +1,4 @@
-package com.shenhufei.Katyusha.core;
+package Katyusha.core;
 
 import com.alibaba.fastjson.JSONArray;
 import com.shenhufei.Katyusha.exception.MethodCodeNotFoundException;

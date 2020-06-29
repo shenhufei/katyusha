@@ -1,3 +1,4 @@
+/*
 package learn.picdoan;
 
 import java.io.ByteArrayOutputStream;
@@ -8,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Base64;
 
 import org.apache.tomcat.util.codec.binary.Base64;
 
@@ -31,13 +33,15 @@ public class DownloadPicFromURL {
              
              
              fileOutputStream = new FileOutputStream(new File(path));
-            /*ByteArrayOutputStream output = new ByteArrayOutputStream();
+            */
+/*ByteArrayOutputStream output = new ByteArrayOutputStream();
             byte[] buffer = new byte[1024];
             int length;
             while ((length = dataInputStream.read(buffer)) > 0) {
                 output.write(buffer, 0, length);
             }
-            fileOutputStream.write(output.toByteArray());*/
+            fileOutputStream.write(output.toByteArray());*//*
+
             
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -78,3 +82,4 @@ public class DownloadPicFromURL {
 
 
 }
+*/

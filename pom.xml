@@ -6,91 +6,130 @@
 	<artifactId>Katyusha</artifactId>
 	<version>1.0.1</version>
 	<modules>
-		<module>springBoot</module>
-		<module>versionController</module>
-        <module>T34</module>
+		<module>springBoot_templates</module>
+		<module>version_controller</module>
+        <module>design_patterns</module>
 		<module>dividedb</module>
-		<module>design_patterns</module>
-		<module>myTools</module>
+		<module>learn</module>
+		<module>my_tools</module>
         <module>springBoot_mybatis_templates</module>
+        <module>base</module>
     </modules>
 	<packaging>pom</packaging>
 
 	<name>Katyusha</name>
 	<url>http://maven.apache.org</url>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.2.RELEASE</version>
-		<relativePath/>
-	</parent>
-
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spring-boot-starter-data-redis.version>2.2.8.RELEASE</spring-boot-starter-data-redis.version>
+		<junit.version>3.8.1</junit.version>
+		<lombok.version>1.16.20</lombok.version>
+		<slf4j-api.version>1.7.12</slf4j-api.version>
+		<fastjson.version>1.2.60</fastjson.version>
+		<mybatis-spring-boot-starter.version>2.0.1</mybatis-spring-boot-starter.version>
+		<cglib.version>3.2.10</cglib.version>
+		<commons-lang3.version>3.9</commons-lang3.version>
+		<reflections.version>0.9.11</reflections.version>
+		<jxl.version>2.6.12</jxl.version>
+		<mysql-connector-java.version>5.1.6</mysql-connector-java.version>
+		<jedis.version>2.7.2</jedis.version>
+		<lucene-core.version>4.0.0</lucene-core.version>
+		<guava.version>20.0</guava.version>
+		<spring.version>4.3.15.RELEASE</spring.version>
+		<tencentcloud-sdk-java.version>3.0.80</tencentcloud-sdk-java.version>
+		<spring-boot-starter-web.version>2.2.8.RELEASE</spring-boot-starter-web.version>
+		<c3p0.version>0.9.1.2</c3p0.version>
+		<dom4j.version>1.6.1</dom4j.version>
+		<druid.version>1.1.22</druid.version>
+		<mybatis-spring.version>2.0.4</mybatis-spring.version>
+		<mybatis.version>3.5.3</mybatis.version>
 	</properties>
-
+	<dependencyManagement>
 	<dependencies>
+
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>${mybatis.version}</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>${mybatis-spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>${druid.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>${dom4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>c3p0</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>${c3p0.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<version>${spring-boot-starter-web.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
-			<exclusions>
-				<exclusion>
-					<artifactId>slf4j-api</artifactId>
-					<groupId>org.slf4j</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>spring-beans</artifactId>
-					<groupId>org.springframework</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>spring-core</artifactId>
-					<groupId>org.springframework</groupId>
-				</exclusion>
-			</exclusions>
+			<version>${spring-boot-starter-data-redis.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
+			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.16.20</version>
+			<version>${lombok.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.12</version>
+			<version>${slf4j-api.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
-			<version>1.2.55</version>
+			<version>${fastjson.version}</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter -->
-		<!-- <dependency> <groupId>org.mybatis.spring.boot</groupId> <artifactId>mybatis-spring-boot-starter</artifactId> 
-			<version>2.0.1</version> </dependency> -->
+		 <dependency>
+			 <groupId>org.mybatis.spring.boot</groupId>
+			 <artifactId>mybatis-spring-boot-starter</artifactId>
+			<version>${mybatis-spring-boot-starter.version}</version>
+		 </dependency>
 		<!-- cglib动态代理的类 -->
 		<dependency>
 			<groupId>cglib</groupId>
 			<artifactId>cglib</artifactId>
-			<version>3.2.10</version>
+			<version>${cglib.version}</version>
 		</dependency>
 		<!-- 参数校验工具类 -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.9</version>
+			<version>${commons-lang3.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.reflections</groupId>
 			<artifactId>reflections</artifactId>
-			<version>0.9.11</version>
+			<version>${reflections.version}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>guava</artifactId>
@@ -103,74 +142,74 @@
 		<dependency>
 			<groupId>net.sourceforge.jexcelapi</groupId>
 			<artifactId>jxl</artifactId>
-			<version>2.6.12</version>
+			<version>${jxl.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.6</version>
+			<version>${mysql-connector-java.version}</version>
 		</dependency>
 
 		<!--导入jedis包-->
 		<dependency>
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId>
-			<version>2.7.2</version>
+			<version>${jedis.version}</version>
 		</dependency>
-
         <!--  -->
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-core</artifactId>
-			<version>4.0.0</version>
+			<version>${lucene-core.version}</version>
 		</dependency>
 		
 		<!-- 腾讯图片识别 -->
 		<dependency>
             <groupId>com.tencentcloudapi</groupId>
             <artifactId>tencentcloud-sdk-java</artifactId>
-            <version>3.0.80</version>
+            <version>#{tencentcloud-sdk-java.version}</version>
         </dependency>
 		<!-- google guava -->
 		<dependency>
     		<groupId>com.google.guava</groupId>
     		<artifactId>guava</artifactId>
-   		 	<version>23.0</version>
+   		 	<version>${guava.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<version>4.3.15.RELEASE</version>
+			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
-			<version>4.3.15.RELEASE</version>
+			<version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>4.3.15.RELEASE</version>
+			<version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
-			<version>4.3.15.RELEASE</version>
+			<version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
-			<version>4.3.15.RELEASE</version>
+			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
-			<version>4.3.15.RELEASE</version>
+			<version>${spring.version}</version>
 		</dependency>
 	</dependencies>
+	</dependencyManagement>
 </project>

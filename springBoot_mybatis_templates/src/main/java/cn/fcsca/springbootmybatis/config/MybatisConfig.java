@@ -1,9 +1,5 @@
 package cn.fcsca.springbootmybatis.config;
 
-import org.apache.ibatis.session.Configuration;
-import org.mybatis.spring.boot.autoconfigure.ConfigurationCustomizer;
-import org.springframework.context.annotation.Bean;
-
 /**
  * MybatisConfig
  *
@@ -22,13 +18,4 @@ public class MybatisConfig {
      * @author Fcscanf@樊乘乘
      * @date 下午 16:45 2018-08-14
      */
-    @Bean
-    public ConfigurationCustomizer configurationCustomizer() {
-        return new ConfigurationCustomizer() {
-            @Override
-            public void customize(Configuration configuration) {
-                configuration.setMapUnderscoreToCamelCase(true);
-            }
-        };
-    }
 }

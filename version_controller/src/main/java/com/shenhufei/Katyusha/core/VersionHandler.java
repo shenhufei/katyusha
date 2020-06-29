@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -43,7 +44,7 @@ public abstract class VersionHandler implements VersionInit, InitializingBean {
 		VersionHandler.listString = listString;
 	}
 
-	public static Map<String, Methods> mapMethod = new HashMap<String, Methods>();
+	public static Map<String, Methods> mapMethod = new ConcurrentHashMap<>();
 	/**
 	 * 获取超级父类中的所有方法，准备在后续操作中，将这些过滤掉
 	 */

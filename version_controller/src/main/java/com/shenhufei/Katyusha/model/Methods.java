@@ -3,6 +3,8 @@ package com.shenhufei.Katyusha.model;
 import java.lang.reflect.Parameter;
 
 import lombok.*;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.RootBeanDefinition;
 
 /**
  *   
@@ -13,7 +15,7 @@ import lombok.*;
  * @version V1.0   
  */
 @Data
-public class Methods {
+public class Methods extends RootBeanDefinition {
     /**
      * 版本号
      */

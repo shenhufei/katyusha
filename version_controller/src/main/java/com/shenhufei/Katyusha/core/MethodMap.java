@@ -1,21 +1,20 @@
 package com.shenhufei.Katyusha.core;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.shenhufei.Katyusha.anntion.Code;
-import com.shenhufei.Katyusha.anntion.Version;
+import com.shenhufei.Katyusha.anntion.InterfaceVersion;
 import com.shenhufei.Katyusha.exception.MethodCodeNotFoundException;
 import com.shenhufei.Katyusha.exception.MethodCodeValueNotFoundException;
 import com.shenhufei.Katyusha.model.Methods;
 import com.shenhufei.Katyusha.utils.CollectionUtils;
 import com.shenhufei.Katyusha.utils.DataUtils;
 import com.shenhufei.Katyusha.utils.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * 版本控制方法执行初始化类
@@ -59,11 +58,11 @@ public  class MethodMap implements Runnable {
 			// 有多少类被扫描到了就会有多少个VsersionControllerPojo对象
 			Annotation[] annotations = class1.getAnnotations();
 			for (Annotation annotation : annotations) {
-				if (annotation instanceof Version) {
+				if (annotation instanceof InterfaceVersion) {
 					// 将所有的类对应的版本信息都录入到集合当中，最后再去重筛选，拿到去重后的版本信息；
 					// listVersion 把该集合去重；
 					CollectionUtils.add(VersionHandler.listVersion,
-							((Version) annotation).value());
+							((InterfaceVersion) annotation).value());
 					// 从已经添加到了Map集合中的方法的类，再次拿来做校验，防止在方法Map集合中添加重复的方法
 					if (!listString.contains(class1.getName())) {
 						// 去掉超级父类的方法；
@@ -113,9 +112,9 @@ public  class MethodMap implements Runnable {
 		VersionHandler.map.put(method.getName(), value);
 		// 记录方法和其对应的支持的那些版本的服务进行记录
 		StringUtils.getMethodVersionCode(VersionHandler.versionMap,
-				transArrayToCollection, value, ((Version) annotation).value());
+				transArrayToCollection, value, ((InterfaceVersion) annotation).value());
 		Methods methodss = DataUtils.getMethods(method, value,
-				((Version) annotation).value(), class1.getName());
+				((InterfaceVersion) annotation).value(), class1.getName());
 		// 这个位置使用Map集合来接受 ,handler中查询这个方法的时候速度会更快
 		VersionHandler.mapMethod.put(methodss.getVersionMethodCode(), methodss);
 

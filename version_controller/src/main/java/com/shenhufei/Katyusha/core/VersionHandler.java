@@ -50,6 +50,20 @@ public abstract class VersionHandler implements VersionInit, InitializingBean {
 	 */
 	static List<Method> listObjectMethods = CollectionUtils.arraytoArrayList();
 
+	public static List<Class<?>> fullClassName = new ArrayList<>();
+
+	public static Logger getLOGGER() {
+		return LOGGER;
+	}
+
+	public static List<Class<?>> getFullClassName() {
+		return fullClassName;
+	}
+
+	public static void setFullClassName(List<Class<?>> fullClassName) {
+		VersionHandler.fullClassName = fullClassName;
+	}
+
 	/**
 	 * 存储接口名，接口code码
 	 */
@@ -101,11 +115,10 @@ public abstract class VersionHandler implements VersionInit, InitializingBean {
 		Reflections reflections = new Reflections("learn.test");
 		Set<Class<? extends PathHandler>> classes = reflections.getSubTypesOf(PathHandler.class);
 		for (Class<?> clazz : classes) {
-			System.out.println("Found: " + clazz.getName());
+			LOGGER.info("Found: " + clazz.getName());
 		}
 		LOGGER.info("init start");
-		list = CollectionUtils
-				.getVersionListClass(FileUtils.getClassSet("learn.test.impl"));
+		CollectionUtils.getVersionListClass(FileUtils.getClassSet("learn.test.impl"));
 		// TODO初始化一个接口名称和 code对应关系的集合；
 		listString = CollectionUtils.getClassNameList(mapMethod);
 		ExecutorService executor = Executors.newCachedThreadPool();
@@ -114,27 +127,6 @@ public abstract class VersionHandler implements VersionInit, InitializingBean {
 		FilterMethodHandler m2 = new FilterMethodHandler(latch);
 		executor.execute(m1);
 		executor.execute(m2);
-		executor.shutdown();
-	}
-
-	// TODO 此处需要将测试的main方法全部去掉
-	public static void main(String[] args) {
-		// 获取一个接口下所有的实现类
-		Reflections reflections = new Reflections("learn.test");
-		Set<Class<? extends PathHandler>> classes = reflections.getSubTypesOf(PathHandler.class);
-		for (Class<?> clazz : classes) {
-			System.out.println("Found: " + clazz.getName());
-		}
-		LOGGER.info("init start");
-		list = CollectionUtils.getVersionListClass(FileUtils.getClassSet("learn.test.impl"));
-		// TODO初始化一个接口名称和 code对应关系的集合；
-		listString = CollectionUtils.getClassNameList(mapMethod);
-		ExecutorService executor = Executors.newCachedThreadPool();
-		CountDownLatch latch = new CountDownLatch(2);
-		MethodMap task1 = new MethodMap(latch);
-		FilterMethodHandler task2 = new FilterMethodHandler(latch);
-		executor.execute(task1);
-		executor.execute(task2);
 		executor.shutdown();
 	}
 

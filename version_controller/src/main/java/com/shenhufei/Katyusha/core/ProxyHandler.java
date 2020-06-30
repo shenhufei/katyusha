@@ -1,6 +1,8 @@
 package com.shenhufei.Katyusha.core;
 
-public class ProxyHandler extends ProxyFactory{
+import com.shenhufei.Katyusha.core.aop.ProxyFactory;
+
+public class ProxyHandler extends ProxyFactory {
 
 	public ProxyHandler(Object target) {
 		super(target);

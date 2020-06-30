@@ -1,10 +1,12 @@
-package com.shenhufei.Katyusha.core;
+package com.shenhufei.Katyusha.core.aop;
+
+import com.shenhufei.Katyusha.core.ProxyFactoryHandler;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
-public class ProxyFactory implements ProxyFactoryHandler{
+public class ProxyFactory implements ProxyFactoryHandler {
 		//被代理的对象
 		private Object target;
 		//使用有参数的构造方法设置代理对象 

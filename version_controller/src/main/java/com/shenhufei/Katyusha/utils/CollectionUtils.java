@@ -1,17 +1,14 @@
 package com.shenhufei.Katyusha.utils;
 
+import com.shenhufei.Katyusha.anntion.Code;
+import com.shenhufei.Katyusha.anntion.Ignore;
+import com.shenhufei.Katyusha.anntion.InterfaceVersion;
+import com.shenhufei.Katyusha.core.VersionHandler;
+import com.shenhufei.Katyusha.model.Methods;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import com.shenhufei.Katyusha.anntion.Code;
-import com.shenhufei.Katyusha.anntion.Igonre;
-import com.shenhufei.Katyusha.anntion.Version;
-import com.shenhufei.Katyusha.model.Methods;
+import java.util.*;
 
 /**
  * 集合相关工具类
@@ -24,7 +21,7 @@ public class CollectionUtils {
      * @author shenhufei
      * @param <T>
      *
-     * @param anno
+     * @param
      * @return
      */
     public static <T> List<T> transArrayToCollection(T[] t) {
@@ -83,21 +80,19 @@ public class CollectionUtils {
      * @param listClass
      * @return
      */
-    public static List<Class<?>> getVersionListClass(List<Class<?>> listClass) {
-        List<Class<?>> result = new ArrayList<Class<?>>();
+    public static void  getVersionListClass(List<Class<?>> listClass) {
+        List<Class<?>> fullClassName = VersionHandler.getFullClassName();
         for (Class<?> class1 : listClass) {
             List<Annotation> list = CollectionUtils.transArrayToCollection(class1.getAnnotations());
             if(!org.springframework.util.CollectionUtils.isEmpty(list)){
             	for (Annotation annotation : list) {
                 	//判断如果是类上加了 @See Version 这个注解的类才是我们需要加载的类
-                    if (annotation instanceof Version) {
-                        result.add(class1);
+                    if (annotation instanceof InterfaceVersion) {
+                        fullClassName.add(class1);
                     }
                 }	
             }
-                
         }
-        return result;
     }
 
     public static Code getCodeAtnn(List<Annotation> transArrayToCollection) {
@@ -113,7 +108,7 @@ public class CollectionUtils {
      * 将已经添加到Map方法集合中的数据，再次拿到他们的类名集合；
      * @author shenhufei
      *
-     * @param listMethod
+     * @param
      * @return
      */
     public static List<String> getClassNameList(Map<String, Methods> mapMethod) {
@@ -125,7 +120,7 @@ public class CollectionUtils {
 
     public static boolean hasIgoneAton(List<Annotation> transArrayToCollection) {
         for (Annotation annotation : transArrayToCollection) {
-            if (annotation instanceof Igonre) {
+            if (annotation instanceof Ignore) {
                 return true;
             }
         }

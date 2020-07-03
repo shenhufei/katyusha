@@ -1,10 +1,5 @@
 package cyclicbarrier;
 
-import countDownlantch.MyThread;
-import countDownlantch.MyThread2;
-import countDownlantch.MyThread3;
-import countDownlantch.MyThread4;
-
 import java.util.ArrayList;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;

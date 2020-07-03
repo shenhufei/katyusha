@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Description:
  * @date 20200615
  */
-@SpringBootApplication(scanBasePackages={"com.shenhufei.*"})
+@SpringBootApplication
 public class StartApp {
     public static void main(String[] args) {
         SpringApplication.run(StartApp.class, args);

@@ -1,4 +1,4 @@
-package cyclicbarrier;
+package mythread;
 
 /**
  * @author shenhufei
@@ -6,10 +6,9 @@ package cyclicbarrier;
  * @Description:
  * @date 20200619
  */
-public class MyThread3 extends Thread{
-
+public class MyThread2 extends Thread {
     @Override
     public  void run(){
-        System.out.println("MyThread3:准备好");
+        System.out.println("MyThread2准备好了");
     }
 }

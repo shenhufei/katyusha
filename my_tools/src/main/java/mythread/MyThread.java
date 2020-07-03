@@ -1,8 +1,4 @@
-package countDownlantch;
-
-import lock.TestMain;
-
-import java.util.Vector;
+package mythread;
 
 /**
  * @author shenhufei
@@ -13,6 +9,6 @@ import java.util.Vector;
 public class MyThread extends  Thread{
     @Override
     public  void run(){
-        System.out.println("MyThread:"+1);
+        System.out.println("MyThread1准备好了:");
     }
 }

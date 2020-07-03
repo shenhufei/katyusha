@@ -1,4 +1,4 @@
-package cyclicbarrier;
+package mythread;
 
 public class MyThread4 extends Thread{
 

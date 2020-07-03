@@ -14,13 +14,27 @@ public class AtomThread  extends  Thread{
 
     @Override
     public void run() {
-        AtomThread.exec();
+        try {
+            AtomThread.exec();
+        } catch (Exception e) {
+            try {
+                throw  new Exception();
+            } catch (Exception ex) {
+                System.out.println("------------------------------------");
+                ex.printStackTrace();
+            }
+        }
     }
 
-    public static void exec() {
+    public static void exec() throws Exception {
             if (count.get() >= 3) {
-                System.out.println("请求用户过多，请稍后在试！"+System.currentTimeMillis()/1000);
+                System.out.println("第1层，线程名称："+Thread.currentThread().getName());
             } else {
+                if(count.get() >= 3){
+
+                    System.out.println("第2层，线程名称："+Thread.currentThread().getName());
+                    throw new Exception();
+                }
                 count.incrementAndGet();
                 try {
                     //处理核心逻辑

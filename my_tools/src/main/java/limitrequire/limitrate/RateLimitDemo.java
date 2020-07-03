@@ -1,4 +1,4 @@
-package limitrate;
+package limitrequire.limitrate;
 
 import com.google.common.util.concurrent.RateLimiter;
 

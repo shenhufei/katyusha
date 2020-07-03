@@ -1,4 +1,4 @@
-package countDownlantch;
+package mythread;
 
 /**
  * @author shenhufei
@@ -10,6 +10,6 @@ public class MyThread3 extends Thread{
 
     @Override
     public  void run(){
-        System.out.println("MyThread3:"+3);
+        System.out.println("MyThread3:准备好");
     }
 }

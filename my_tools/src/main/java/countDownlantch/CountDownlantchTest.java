@@ -1,5 +1,10 @@
 package countDownlantch;
 
+import mythread.MyThread;
+import mythread.MyThread2;
+import mythread.MyThread3;
+import mythread.MyThread4;
+
 import java.util.concurrent.CountDownLatch;
 
 public class CountDownlantchTest {

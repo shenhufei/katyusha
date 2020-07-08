@@ -1,0 +1,6 @@
+cn\fcsca\springbootmybatis\config\DruidConfig.class
+cn\fcsca\springbootmybatis\config\MybatisConfig.class
+cn\fcsca\springbootmybatis\mapper\UserMapper.class
+cn\fcsca\springbootmybatis\SpringbootmybatisApplication.class
+cn\fcsca\springbootmybatis\bean\User.class
+cn\fcsca\springbootmybatis\controller\DepartmentController.class

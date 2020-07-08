@@ -1,10 +1,10 @@
-package cn.fcsca.springbootmybatis;
+package springbootmybatis;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@MapperScan(value = "cn.fcsca.springbootmybatis.mapper")
+@MapperScan(value = "springbootmybatis.mapper")
 @SpringBootApplication
 public class SpringbootmybatisApplication {
 

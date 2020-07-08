@@ -1,4 +1,4 @@
-package cn.fcsca.springbootmybatis.bean;
+package springbootmybatis.bean;
 
 import java.io.Serializable;
 

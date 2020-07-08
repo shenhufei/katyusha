@@ -1,8 +1,8 @@
-package cn.fcsca.springbootmybatis.mapper;
+package springbootmybatis.mapper;
 
 import java.util.List;
 
-import cn.fcsca.springbootmybatis.bean.User;
+import springbootmybatis.bean.User;
 
 public interface UserMapper {
 

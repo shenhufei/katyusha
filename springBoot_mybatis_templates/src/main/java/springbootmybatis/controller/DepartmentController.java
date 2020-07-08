@@ -1,4 +1,4 @@
-package cn.fcsca.springbootmybatis.controller;
+package springbootmybatis.controller;
 
 import java.util.List;
 
@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import cn.fcsca.springbootmybatis.bean.User;
-import cn.fcsca.springbootmybatis.mapper.UserMapper;
+import springbootmybatis.bean.User;
+import springbootmybatis.mapper.UserMapper;
 
 /**
  * DepartmentController

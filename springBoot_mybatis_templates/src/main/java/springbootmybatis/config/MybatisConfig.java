@@ -1,4 +1,4 @@
-package cn.fcsca.springbootmybatis.config;
+package springbootmybatis.config;
 
 /**
  * MybatisConfig

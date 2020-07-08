@@ -1,3 +1,4 @@
+/*
 package com.shenhufei.redis;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -7,12 +8,14 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 
+*/
 /**
  * @author shenhufei
  * @version 1.0
  * @Description:
  * @date 20200615
- */
+ *//*
+
 @Component
 public class RedisService {
 
@@ -36,7 +39,8 @@ public class RedisService {
             stringRedisTemplate.discard();
 
         }
-       /* if (object instanceof String ) {  //判断下是String类型不
+       */
+/* if (object instanceof String ) {  //判断下是String类型不
             String argString =(String)object;  //强转下
             //存放String类型的
             stringRedisTemplate.opsForValue().set(key, argString);
@@ -51,7 +55,8 @@ public class RedisService {
         //设置有效期
         if (time != null) {
             stringRedisTemplate.expire(key, time, TimeUnit.SECONDS);
-        }*/
+        }*//*
+
 
     }
     //做个封装
@@ -71,3 +76,4 @@ public class RedisService {
         return    stringRedisTemplate.opsForValue().get(key);
     }
 }
+*/

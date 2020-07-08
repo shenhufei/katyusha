@@ -17,19 +17,16 @@
         <module>spring</module>
     </modules>
 	<packaging>pom</packaging>
-
 	<name>Katyusha</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring-boot-starter-data-redis.version>2.2.8.RELEASE</spring-boot-starter-data-redis.version>
 		<junit.version>3.8.1</junit.version>
 		<lombok.version>1.16.20</lombok.version>
 		<slf4j-api.version>1.7.12</slf4j-api.version>
 		<fastjson.version>1.2.60</fastjson.version>
-		<mybatis-spring-boot-starter.version>2.0.1</mybatis-spring-boot-starter.version>
 		<cglib.version>3.2.10</cglib.version>
 		<commons-lang3.version>3.9</commons-lang3.version>
 		<reflections.version>0.9.11</reflections.version>
@@ -40,16 +37,59 @@
 		<guava.version>20.0</guava.version>
 		<spring.version>4.3.15.RELEASE</spring.version>
 		<tencentcloud-sdk-java.version>3.0.80</tencentcloud-sdk-java.version>
-		<spring-boot-starter-web.version>2.2.8.RELEASE</spring-boot-starter-web.version>
 		<c3p0.version>0.9.1.2</c3p0.version>
 		<dom4j.version>1.6.1</dom4j.version>
 		<druid.version>1.1.22</druid.version>
 		<mybatis-spring.version>2.0.4</mybatis-spring.version>
 		<mybatis.version>3.5.3</mybatis.version>
 		<okhttp.version>4.4.0</okhttp.version>
+		<mybatis-spring-boot-starter.version>2.0.1</mybatis-spring-boot-starter.version>
+		<spring-boot-starter-data-redis.version>2.3.0.RELEASE</spring-boot-starter-data-redis.version>
+		<spring-boot-starter-web.version>2.3.0.RELEASE</spring-boot-starter-web.version>
+		<spring-boot-starter-test.version>2.3.0.RELEASE</spring-boot-starter-test.version>
+		<spring-boot-starter-freemarker.version>2.3.0.RELEASE</spring-boot-starter-freemarker.version>
+		<spring-boot-starter-jdbc.version>2.3.0.RELEASE</spring-boot-starter-jdbc.version>
+		<spring-boot-starter-aop.version>2.3.0.RELEASE</spring-boot-starter-aop.version>
+		<spring-context.version>5.2.1.RELEASE</spring-context.version>
+		<spring-web.version>5.2.1.RELEASE</spring-web.version>
 	</properties>
 	<dependencyManagement>
 	<dependencies>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring-web.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring-context.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+			<version>${spring-boot-starter-aop.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+			<version>${spring-boot-starter-jdbc.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-freemarker</artifactId>
+			<version>${spring-boot-starter-freemarker.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<version>${spring-boot-starter-test.version}</version>
+			<scope>test</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>com.squareup.okhttp3</groupId>

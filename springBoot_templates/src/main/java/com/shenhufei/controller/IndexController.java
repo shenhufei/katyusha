@@ -1,7 +1,5 @@
 package com.shenhufei.controller;
-import com.shenhufei.redis.RedisService;
-import com.shenhufei.service.DemoService1;
-import com.shenhufei.service.DemoService2;
+
 import com.shenhufei.thread.MyThread;
 import com.shenhufei.thread.MyThread2;
 import com.shenhufei.thread.MyThread3;
@@ -20,8 +18,8 @@ import java.util.concurrent.ConcurrentLinkedDeque;
  */
 @RestController
 public class IndexController {
-    @Autowired
-    private RedisService redisService;
+   /* @Autowired
+    private RedisService redisService;*/
     @Autowired
     private MyThread myThread;
     @Autowired
@@ -31,7 +29,7 @@ public class IndexController {
 
     @RequestMapping("/setString")
     public String setString(String key, String value){
-        redisService.set(key, value, 5000l); //超时时间5000s   l表示long型
+      //  redisService.set(key, value, 5000l); //超时时间5000s   l表示long型
         return "成功";
     }
 
@@ -55,5 +53,20 @@ public class IndexController {
         myThread2.start();
         myThread3.start();
         return "";
+    }
+
+
+    @RequestMapping(value = "/hello")
+    public String demo() {
+        return "demo/hello";
+    }
+
+    @RequestMapping(value = "/timeout")
+    public String timeout() {
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+        }
+        return "demo/hello";
     }
 }

@@ -20,6 +20,7 @@
 	<name>Katyusha</name>
 	<url>http://maven.apache.org</url>
 	<properties>
+		<java.version>1.8</java.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -36,13 +37,16 @@
 		<lucene-core.version>4.0.0</lucene-core.version>
 		<guava.version>20.0</guava.version>
 		<spring.version>4.3.15.RELEASE</spring.version>
-		<tencentcloud-sdk-java.version>3.0.80</tencentcloud-sdk-java.version>
 		<c3p0.version>0.9.1.2</c3p0.version>
 		<dom4j.version>1.6.1</dom4j.version>
 		<druid.version>1.1.22</druid.version>
 		<mybatis-spring.version>2.0.4</mybatis-spring.version>
 		<mybatis.version>3.5.3</mybatis.version>
 		<okhttp.version>4.4.0</okhttp.version>
+		<logback-ext-spring-version>0.1.2</logback-ext-spring-version>
+		<zookeeper.version>3.4.6</zookeeper.version>
+		<curator.version>2.10.0</curator.version>
+		<logback.gelf.version>0.3</logback.gelf.version>
 		<mybatis-spring-boot-starter.version>2.0.1</mybatis-spring-boot-starter.version>
 		<spring-boot-starter-data-redis.version>2.3.0.RELEASE</spring-boot-starter-data-redis.version>
 		<spring-boot-starter-web.version>2.3.0.RELEASE</spring-boot-starter-web.version>
@@ -55,6 +59,28 @@
 	</properties>
 	<dependencyManagement>
 	<dependencies>
+
+		<dependency>
+			<groupId>me.moocar</groupId>
+			<artifactId>logback-gelf</artifactId>
+			<version>${logback.gelf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.curator</groupId>
+			<artifactId>curator-recipes</artifactId>
+			<version>${curator.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.zookeeper</groupId>
+			<artifactId>zookeeper</artifactId>
+			<version>${zookeeper.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.logback-extensions</groupId>
+			<artifactId>logback-ext-spring</artifactId>
+			<version>${logback-ext-spring-version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -212,12 +238,6 @@
 			<version>${lucene-core.version}</version>
 		</dependency>
 		
-		<!-- 腾讯图片识别 -->
-		<dependency>
-            <groupId>com.tencentcloudapi</groupId>
-            <artifactId>tencentcloud-sdk-java</artifactId>
-            <version>#{tencentcloud-sdk-java.version}</version>
-        </dependency>
 		<!-- google guava -->
 		<dependency>
     		<groupId>com.google.guava</groupId>

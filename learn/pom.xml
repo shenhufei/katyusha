@@ -89,11 +89,6 @@
             <artifactId>lucene-core</artifactId>
         </dependency>
 
-        <!-- 腾讯图片识别 -->
-        <dependency>
-            <groupId>com.tencentcloudapi</groupId>
-            <artifactId>tencentcloud-sdk-java</artifactId>
-        </dependency>
         <!-- google guava -->
         <dependency>
             <groupId>com.google.guava</groupId>

@@ -12,23 +12,23 @@ import java.util.*;
 
 /**
  * 集合相关工具类
- * 
+ *
  * @author shenhufei
  */
 public class CollectionUtils {
     /**
      * 将数组转成对应泛型的集合
-     * @author shenhufei
-     * @param <T>
      *
+     * @param <T>
      * @param
      * @return
+     * @author shenhufei
      */
     public static <T> List<T> transArrayToCollection(T[] t) {
         List<T> list = new ArrayList<>();
         for (T t2 : t) {
-        	list.add(t2);
-		}
+            list.add(t2);
+        }
         return list;
     }
 
@@ -48,10 +48,9 @@ public class CollectionUtils {
 
     /**
      * 将数组转成集合
-     * 
-     * @author shenhufei
      *
      * @return
+     * @author shenhufei
      */
     public static List<Method> arraytoArrayList() {
         Method[] objectMethods = (new Object()).getClass().getMethods();
@@ -63,11 +62,11 @@ public class CollectionUtils {
     }
 
     public static List<Method> getClassMethod(List<Method> listObjectMethods,
-            Method[] methods) {
+                                              Method[] methods) {
         List<Method> arrayList = new ArrayList<Method>();
         for (Method method : methods) {
-            if (!listObjectMethods.contains(method)){
-            	arrayList.add(method);
+            if (!listObjectMethods.contains(method)) {
+                arrayList.add(method);
             }
         }
         return arrayList;
@@ -75,22 +74,22 @@ public class CollectionUtils {
 
     /**
      * 拿到有版本控制的类
-     * @author shenhufei
      *
      * @param listClass
      * @return
+     * @author shenhufei
      */
-    public static void  getVersionListClass(List<Class<?>> listClass) {
+    public static void getVersionListClass(List<Class<?>> listClass) {
         List<Class<?>> fullClassName = VersionHandler.getFullClassName();
         for (Class<?> class1 : listClass) {
             List<Annotation> list = CollectionUtils.transArrayToCollection(class1.getAnnotations());
-            if(!org.springframework.util.CollectionUtils.isEmpty(list)){
-            	for (Annotation annotation : list) {
-                	//判断如果是类上加了 @See Version 这个注解的类才是我们需要加载的类
+            if (!org.springframework.util.CollectionUtils.isEmpty(list)) {
+                for (Annotation annotation : list) {
+                    //判断如果是类上加了 @See Version 这个注解的类才是我们需要加载的类
                     if (annotation instanceof InterfaceVersion) {
                         fullClassName.add(class1);
                     }
-                }	
+                }
             }
         }
     }
@@ -106,10 +105,10 @@ public class CollectionUtils {
 
     /**
      * 将已经添加到Map方法集合中的数据，再次拿到他们的类名集合；
-     * @author shenhufei
      *
      * @param
      * @return
+     * @author shenhufei
      */
     public static List<String> getClassNameList(Map<String, Methods> mapMethod) {
         List<String> list = new ArrayList<String>();
@@ -126,6 +125,6 @@ public class CollectionUtils {
         }
         return false;
     }
-    
-    
+
+
 }

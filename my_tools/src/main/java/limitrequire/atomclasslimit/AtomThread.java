@@ -20,7 +20,7 @@ public class AtomThread  extends  Thread{
             try {
                 throw  new Exception();
             } catch (Exception ex) {
-                System.out.println("------------------------------------");
+                System.out.println("-");
                 ex.printStackTrace();
             }
         }

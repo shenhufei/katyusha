@@ -34,7 +34,7 @@
 		<commons-lang3.version>3.9</commons-lang3.version>
 		<reflections.version>0.9.11</reflections.version>
 		<jxl.version>2.6.12</jxl.version>
-		<mysql-connector-java.version>5.1.6</mysql-connector-java.version>
+		<mysql-connector-java.version>8.0.16</mysql-connector-java.version>
 		<jedis.version>2.7.2</jedis.version>
 		<lucene-core.version>4.0.0</lucene-core.version>
 		<guava.version>20.0</guava.version>

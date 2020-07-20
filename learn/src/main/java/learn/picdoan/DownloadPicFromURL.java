@@ -15,7 +15,7 @@ import org.apache.tomcat.util.codec.binary.Base64;
 
 public class DownloadPicFromURL {
 	public static void main(String[] args) throws IOException {
-        String url = "http://pic001.ttpaicdn.com/images/T1pFVTBCKj1RXrhCrK.jpg";
+    
         String path="d:/pic.jpg";
         downloadPicture(url,path);
     }

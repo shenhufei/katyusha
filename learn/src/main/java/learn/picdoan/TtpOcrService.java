@@ -12,7 +12,7 @@ import com.tencentcloudapi.ocr.v20181119.OcrClient;
 import com.tencentcloudapi.ocr.v20181119.models.VehicleLicenseOCRRequest;
 import com.tencentcloudapi.ocr.v20181119.models.VehicleLicenseOCRResponse;
 
-public class TtpOcrService {
+public class OcrService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(TtpOcrService.class);
 	

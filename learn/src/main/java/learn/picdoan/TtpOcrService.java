@@ -16,8 +16,7 @@ public class TtpOcrService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(TtpOcrService.class);
 	
-	private String secretId  = "AKIDzoV0VcrLxWuwvxt261lMfw53c0FOlbzL";
-    private String secretKey = "KKBTdKyWvAE6JOIvUtG8sRs9GD3mQ3c6";
+	
     private static OcrClient ocrClient;
     public TtpOcrService(String secretId,String secretKey){
     	this.secretId=secretId;
@@ -70,7 +69,7 @@ public class TtpOcrService {
         if (ocrClient != null) {
             return ocrClient;
         }
-            Credential cred = new Credential("AKIDzoV0VcrLxWuwvxt261lMfw53c0FOlbzL", "KKBTdKyWvAE6JOIvUtG8sRs9GD3mQ3c6");
+           
             HttpProfile httpProfile = new HttpProfile();
             httpProfile.setEndpoint("ocr.tencentcloudapi.com");
             ClientProfile clientProfile = new ClientProfile();

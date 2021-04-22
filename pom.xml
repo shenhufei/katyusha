@@ -44,7 +44,7 @@
 		<dom4j.version>1.6.1</dom4j.version>
 		<druid.version>1.1.22</druid.version>
 		<mybatis-spring.version>2.0.4</mybatis-spring.version>
-		<mybatis.version>3.5.3</mybatis.version>
+		<mybatis.version>3.5.6</mybatis.version>
 		<dubbo-serialization-hessian2.version>2.7.6</dubbo-serialization-hessian2.version>
 		<hessian.version>4.0.38</hessian.version>
 	</properties>

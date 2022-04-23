@@ -38,7 +38,7 @@
 		<jedis.version>2.7.2</jedis.version>
 		<lucene-core.version>4.0.0</lucene-core.version>
 		<guava.version>20.0</guava.version>
-		<spring.version>4.3.15.RELEASE</spring.version>
+		<spring.version>5.3.19</spring.version>
 		<spring-boot-starter-web.version>2.2.8.RELEASE</spring-boot-starter-web.version>
 		<c3p0.version>0.9.1.2</c3p0.version>
 		<dom4j.version>1.6.1</dom4j.version>
